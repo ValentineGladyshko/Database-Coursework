@@ -4192,10 +4192,10 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-brand {
-  float: left;
-  padding: 15px 15px;
-  font-size: 18px;
-  line-height: 20px;
+    float: left;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
 }
 
 .navbar-brand:hover,
@@ -4207,6 +4207,30 @@ textarea.input-group-sm > .input-group-btn > .btn {
   .navbar > .container .navbar-brand {
     margin-left: -15px;
   }
+}
+
+.my-navbar-brand {
+    float: left;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.my-navbar-brand {
+    color: #999999;
+    float: left;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.my-navbar-brand:hover,
+.my-navbar-brand:focus {
+    text-decoration: none;
+}
+
+@media (min-width: 768px) {
+    .navbar > .container .my-navbar-brand {
+        margin-left: -15px;
+    }
 }
 
 .navbar-toggle {
@@ -4398,6 +4422,16 @@ textarea.input-group-sm > .input-group-btn > .btn {
   background-color: transparent;
 }
 
+.navbar-default .my-navbar-brand {
+  color: #777777;
+}
+
+.navbar-default .my-navbar-brand:hover,
+.navbar-default .my-navbar-brand:focus {
+  color: #5e5e5e;
+  background-color: transparent;
+}
+
 .navbar-default .navbar-text {
   color: #777777;
 }
@@ -4509,8 +4543,18 @@ textarea.input-group-sm > .input-group-btn > .btn {
   color: #999999;
 }
 
+.navbar-inverse .mu-navbar-brand {
+  color: #999999;
+}
+
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
+  color: #ffffff;
+  background-color: transparent;
+}
+
+.navbar-inverse .my-navbar-brand:hover,
+.navbar-inverse .my-navbar-brand:focus {
   color: #ffffff;
   background-color: transparent;
 }

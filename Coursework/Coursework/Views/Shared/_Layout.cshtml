@@ -11,22 +11,20 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            
             <div class="navbar-header">
-                
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button> 
-                <a class="navbar-brand" href="~/Home">
-                    <img src="~/Images/mountains.png" width="25" height="25" class="d-inline-block align-top" alt="">
-                    Домашня Сторінка
-                </a>
+                </button>
+               <a class="my-navbar-brand" href="~/Home">
+                        <img src="~/Images/mountains.png" width="50" height="50" alt="">
+                        Домашня Сторінка
+               </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Бухгалтерський Облік", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Бухгалтерський Облік", "Index", "Accounting")</li>
                     <li>@Html.ActionLink("Рятувальна Служба", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Адміністрування", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Про Проект", "About", "Home")</li>
@@ -36,7 +34,7 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+            @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year – додаток ASP.NET</p>

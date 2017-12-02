@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "Харчування";
+}
+
+<nav class="navbar navbar-inverse visible-xs">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Бухгалтерський Облік</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Загальний прибуток", "Index", "Accounting")</li>
+                <li>@Html.ActionLink("Проживання", "HouseProfit", "Accounting")</li>
+                <li class="active">@Html.ActionLink("Харчування", "FoodProfit", "Accounting")</li>
+                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Accounting")</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-3 sidenav hidden-xs">
+            <h2>Бухгалтерський Облік</h2>
+            <ul class="nav nav-pills nav-stacked">
+                <li>@Html.ActionLink("Загальний прибуток", "Index", "Accounting")</li>
+                <li>@Html.ActionLink("Проживання", "HouseProfit", "Accounting")</li>
+                <li class="active">@Html.ActionLink("Харчування", "FoodProfit", "Accounting")</li>
+                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Accounting")</li>
+            </ul><br>
+        </div>
+        <br>
+
+        <div class="col-sm-9">
+            <div class="well">
+                <h4>Прибуток за харчування</h4>
+                <canvas id="doughnut-chart" width="808" height="300"></canvas>
+                <script src="~/Scripts/Chart.js"></script>
+                <script>
+                    new Chart(document.getElementById("doughnut-chart"), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ["Сніданок (грн.)", "Обід (грн.)", "Вечеря (грн.)"],
+                            datasets: [
+                                {
+                                    backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"],
+                                    data: [500, 3000, 1500]
+                                }
+                            ]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Прибуток за харчування за останій рік (по типам)'
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            <div class="well">
+                <h4>Графік Прибутку</h4>
+                <canvas id="bar-chart-grouped" width="808" height="400"></canvas>
+                <script src="~/Scripts/Chart.js"></script>
+                <script>
+                    new Chart(document.getElementById("bar-chart-grouped"), {
+                        type: 'bar',
+                        data: {
+                            labels: ["Січень - Березень", "Квітень - Червень", "Липень - Вересень", "Жовтень - Грудень"],
+                            datasets: [
+                                {
+                                    label: "Сніданок (грн.)",
+                                    backgroundColor: "#2ecc71",
+                                    data: [100, 250, 25, 125]
+                                }, {
+                                    label: "Обід (грн.)",
+                                    backgroundColor: "#f1c40f",
+                                    data: [500, 1400, 200, 900]
+                                }
+                                , {
+                                    label: "Вечеря (грн.)",
+                                    backgroundColor: "#e74c3c",
+                                    data: [800, 100, 400, 200]
+                                }
+                            ]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Прибуток'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    stacked: true
+                                }],
+                                yAxes: [{
+                                    stacked: true
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            <div class="well">
+                <h4>Прибуток за проживання</h4>
+                <canvas id="doughnut-chart1" width="808" height="300"></canvas>
+                <script src="~/Scripts/Chart.js"></script>
+                <script>
+                    new Chart(document.getElementById("doughnut-chart1"), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ["Грузія (грн.)", "Росія (грн.)", "Киргизстан (грн.)"],
+                            datasets: [
+                                {
+                                    backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"],
+                                    data: [1000, 1500, 2500]
+                                }
+                            ]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Прибуток за харчування за останій рік (по Альпіністським Базам)'
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            <div class="well">
+                <h4>Альпіністська База - Харчування</h4>
+                <canvas id="bar-chart-grouped1" width="808" height="400"></canvas>
+                <script src="~/Scripts/Chart.js"></script>
+                <script>
+                    new Chart(document.getElementById("bar-chart-grouped1"), {
+                        type: 'bar',
+                        data: {
+                            labels: ["Грузія", "Росія", "Киргизстан"],
+                            datasets: [
+                                {
+                                    label: "Сніданок (грн.)",
+                                    backgroundColor: "#2ecc71",
+                                    data: [100, 400, 700]
+                                }, {
+                                    label: "Обід (грн.)",
+                                    backgroundColor: "#f1c40f",
+                                    data: [400, 800, 1000]
+                                }
+                                , {
+                                    label: "Вечеря (грн.)",
+                                    backgroundColor: "#e74c3c",
+                                    data: [500, 300, 800]
+                                }
+                            ]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Альпіністська База'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    stacked: true
+                                }],
+                                yAxes: [{
+                                    stacked: true
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+

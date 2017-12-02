@@ -150,10 +150,35 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountingController.cs" />
+    <Compile Include="Controllers\AlpinistBasesController.cs" />
+    <Compile Include="Controllers\AlpinistsController.cs" />
+    <Compile Include="Controllers\AlpinistsListsController.cs" />
+    <Compile Include="Controllers\FoodOrdersController.cs" />
+    <Compile Include="Controllers\FoodTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HouseOrdersController.cs" />
+    <Compile Include="Controllers\HousesController.cs" />
+    <Compile Include="Controllers\HouseTypesController.cs" />
+    <Compile Include="Controllers\RoutesController.cs" />
+    <Compile Include="Controllers\RouteStatesController.cs" />
+    <Compile Include="Controllers\WalksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AlpinistBases.cs" />
+    <Compile Include="Models\Alpinists.cs" />
+    <Compile Include="Models\AlpinistsList.cs" />
+    <Compile Include="Models\Date.cs" />
+    <Compile Include="Models\FoodOrders.cs" />
+    <Compile Include="Models\FoodTypes.cs" />
+    <Compile Include="Models\HouseOrders.cs" />
+    <Compile Include="Models\Houses.cs" />
+    <Compile Include="Models\HouseTypes.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\Routes.cs" />
+    <Compile Include="Models\RouteStates.cs" />
+    <Compile Include="Models\Walks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +193,10 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\Chart.bundle.js" />
+    <Content Include="Scripts\Chart.bundle.min.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -195,10 +224,69 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\AlpinistBases\Create.cshtml" />
+    <Content Include="Views\AlpinistBases\Delete.cshtml" />
+    <Content Include="Views\AlpinistBases\Details.cshtml" />
+    <Content Include="Views\AlpinistBases\Edit.cshtml" />
+    <Content Include="Views\AlpinistBases\Index.cshtml" />
+    <Content Include="Views\Alpinists\Create.cshtml" />
+    <Content Include="Views\Alpinists\Delete.cshtml" />
+    <Content Include="Views\Alpinists\Details.cshtml" />
+    <Content Include="Views\Alpinists\Edit.cshtml" />
+    <Content Include="Views\Alpinists\Index.cshtml" />
+    <Content Include="Views\AlpinistsLists\Create.cshtml" />
+    <Content Include="Views\AlpinistsLists\Delete.cshtml" />
+    <Content Include="Views\AlpinistsLists\Details.cshtml" />
+    <Content Include="Views\AlpinistsLists\Edit.cshtml" />
+    <Content Include="Views\AlpinistsLists\Index.cshtml" />
+    <Content Include="Views\FoodOrders\Create.cshtml" />
+    <Content Include="Views\FoodOrders\Delete.cshtml" />
+    <Content Include="Views\FoodOrders\Details.cshtml" />
+    <Content Include="Views\FoodOrders\Edit.cshtml" />
+    <Content Include="Views\FoodOrders\Index.cshtml" />
+    <Content Include="Views\FoodTypes\Create.cshtml" />
+    <Content Include="Views\FoodTypes\Delete.cshtml" />
+    <Content Include="Views\FoodTypes\Details.cshtml" />
+    <Content Include="Views\FoodTypes\Edit.cshtml" />
+    <Content Include="Views\FoodTypes\Index.cshtml" />
+    <Content Include="Views\HouseOrders\Create.cshtml" />
+    <Content Include="Views\HouseOrders\Delete.cshtml" />
+    <Content Include="Views\HouseOrders\Details.cshtml" />
+    <Content Include="Views\HouseOrders\Edit.cshtml" />
+    <Content Include="Views\HouseOrders\Index.cshtml" />
+    <Content Include="Views\Houses\Create.cshtml" />
+    <Content Include="Views\Houses\Delete.cshtml" />
+    <Content Include="Views\Houses\Details.cshtml" />
+    <Content Include="Views\Houses\Edit.cshtml" />
+    <Content Include="Views\Houses\Index.cshtml" />
+    <Content Include="Views\HouseTypes\Create.cshtml" />
+    <Content Include="Views\HouseTypes\Delete.cshtml" />
+    <Content Include="Views\HouseTypes\Details.cshtml" />
+    <Content Include="Views\HouseTypes\Edit.cshtml" />
+    <Content Include="Views\HouseTypes\Index.cshtml" />
+    <Content Include="Views\Routes\Create.cshtml" />
+    <Content Include="Views\Routes\Delete.cshtml" />
+    <Content Include="Views\Routes\Details.cshtml" />
+    <Content Include="Views\Routes\Edit.cshtml" />
+    <Content Include="Views\Routes\Index.cshtml" />
+    <Content Include="Views\RouteStates\Create.cshtml" />
+    <Content Include="Views\RouteStates\Delete.cshtml" />
+    <Content Include="Views\RouteStates\Details.cshtml" />
+    <Content Include="Views\RouteStates\Edit.cshtml" />
+    <Content Include="Views\RouteStates\Index.cshtml" />
+    <Content Include="Views\Walks\Create.cshtml" />
+    <Content Include="Views\Walks\Delete.cshtml" />
+    <Content Include="Views\Walks\Details.cshtml" />
+    <Content Include="Views\Walks\Edit.cshtml" />
+    <Content Include="Views\Walks\Index.cshtml" />
+    <Content Include="Views\Accounting\Index.cshtml" />
+    <Content Include="Views\Accounting\HouseProfit.cshtml" />
+    <Content Include="Views\Accounting\FoodProfit.cshtml" />
+    <Content Include="Views\Accounting\BaseProfit.cshtml" />
+    <Content Include="Views\Accounting\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,0 +1,50 @@
+﻿@model Coursework.Models.Walks
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Walks</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Alpinists.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alpinists.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Routes.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Routes.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEnd)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.WalkID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
