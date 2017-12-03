@@ -6,10 +6,12 @@
 
 <h2>Report</h2>
 
-@using (Html.BeginForm()) 
+
+
+@using (Html.BeginForm(IsPost))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Date</h4>
         <hr />
@@ -29,18 +31,85 @@
                 @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                
-                    <input type="submit" value="Create" class="btn btn-default" />
+
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
-    </div>
+</div>
 }
+@{
+    if (IsPost)
+    {
+        var queryString = "SELECT " +
+    "[FirstName], " +
+    "[LastName], " +
+    "[DateStart], " +
+    "[DateEnd], " +
+    "[HT].[Name], " +
+    "[Price]*(DateDiff(DD,[DateStart],[DateEnd])+1) AS [Price] " +
+    "FROM [HouseOrders] AS [HO] " +
+    "JOIN [Alpinists] AS [A] " +
+    "ON [A].[AlpinistID] = [HO].[AlpinistID] " +
+    "JOIN [Houses] AS [H] " +
+    "ON [HO].[HouseID] = [H].[HouseID] " +
+    "JOIN [HouseTypes] AS [HT] " +
+    "ON [H].[HouseTypeID] = [HT].[HouseTypeID] " +
+    "WHERE ([DateStart] BETWEEN '2017-09-23' AND '2017-09-24') AND ([DateEnd] BETWEEN '2017-09-23' AND '2017-09-24') " +
+    "UNION " +
+    "SELECT" +
+    "[FirstName], " +
+    "[LastName], " +
+    "[Date] AS [DateStart], " +
+    "null AS [DateEnd], " +
+    "[Name], " +
+    "[Price] " +
+    "FROM [FoodOrders] AS [FO] " +
+    "JOIN [Alpinists] AS [A] ON [A].[AlpinistID] = [FO].[AlpinistID] " +
+    "JOIN [FoodTypes] AS [FT] " +
+    "ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+    "WHERE ([Date] BETWEEN '2017-09-23' AND '2017-09-24')ORDER BY [DateStart]";
+        var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS; Initial Catalog = Coursework; Integrated Security = True");
+        connection.Open();
+        System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+        System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
-@*@Html.Action("Index1")*@
-
+        List<Object[]> list = new List<Object[]>();
+        while (reader.Read())
+        {
+            Object[] values = new Object[reader.FieldCount];
+            reader.GetValues(values);
+            list.Add(values);
+        }
+        connection.Close();
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th class="my-th">Ім'я</th>
+                    <th class="my-th">Прізвище</th>
+                    <th class="my-th">Початкова дата</th>
+                    <th class="my-th">Кінцева дата</th>
+                    <th class="my-th">Тип послуги</th>
+                    <th class="my-th">Ціна</th>
+                </tr>
+                @{
+                    foreach (Object[] element in list)
+                    {
+                        <tr>
+                            <th>@element[0]</th>
+                            <th>@element[1]</th>
+                            <th>@element[2]</th>
+                            <th>@element[3]</th>
+                            <th>@element[4]</th>
+                            <th>@element[5]$</th>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+                    }
+}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

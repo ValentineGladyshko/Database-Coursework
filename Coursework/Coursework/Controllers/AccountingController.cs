@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace Coursework.Controllers
 {
     public class AccountingController : Controller
@@ -46,10 +47,15 @@ namespace Coursework.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index1");
+                return View(date);
             }
  
             return View(date);
+        }
+
+        public ActionResult newReport()
+        {
+            return View();
         }
     }
 }

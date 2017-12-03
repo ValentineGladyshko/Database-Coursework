@@ -1410,7 +1410,12 @@ table {
 }
 
 th {
-  text-align: left;
+    font-weight: normal;
+    text-align: left;
+}
+
+.my-th {
+    font-weight: bold;
 }
 
 .table {

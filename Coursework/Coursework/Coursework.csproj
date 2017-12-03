@@ -284,6 +284,7 @@
     <Content Include="Views\Accounting\FoodProfit.cshtml" />
     <Content Include="Views\Accounting\BaseProfit.cshtml" />
     <Content Include="Views\Accounting\Report.cshtml" />
+    <Content Include="Views\Accounting\newReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
