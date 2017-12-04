@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Харчування";
+    ViewBag.Title = "Проживання";
 }
 
 <nav class="navbar navbar-inverse visible-xs">
@@ -10,14 +10,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Бухгалтерський Облік</a>
+            <a class="navbar-brand" href="#">Статистика</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Загальний прибуток", "Index", "Accounting")</li>
-                <li>@Html.ActionLink("Проживання", "HouseProfit", "Accounting")</li>
-                <li class="active">@Html.ActionLink("Харчування", "FoodProfit", "Accounting")</li>
-                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Accounting")</li>
+                <li>@Html.ActionLink("Загальний прибуток", "Index", "Statistics")</li>
+                <li class="active">@Html.ActionLink("Проживання", "HouseProfit", "Statistics")</li>
+                <li>@Html.ActionLink("Харчування", "FoodProfit", "Statistics")</li>
+                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Statistics")</li>
             </ul>
         </div>
     </div>
@@ -26,37 +26,37 @@
 <div class="container-fluid">
     <div class="row content">
         <div class="col-sm-3 sidenav hidden-xs">
-            <h2>Бухгалтерський Облік</h2>
+            <h2>Статистика</h2>
             <ul class="nav nav-pills nav-stacked">
-                <li>@Html.ActionLink("Загальний прибуток", "Index", "Accounting")</li>
-                <li>@Html.ActionLink("Проживання", "HouseProfit", "Accounting")</li>
-                <li class="active">@Html.ActionLink("Харчування", "FoodProfit", "Accounting")</li>
-                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Accounting")</li>
+                <li>@Html.ActionLink("Загальний прибуток", "Index", "Statistics")</li>
+                <li class="active">@Html.ActionLink("Проживання", "HouseProfit", "Statistics")</li>
+                <li>@Html.ActionLink("Харчування", "FoodProfit", "Statistics")</li>
+                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Statistics")</li>
             </ul><br>
         </div>
         <br>
 
         <div class="col-sm-9">
             <div class="well">
-                <h4>Прибуток за харчування</h4>
+                <h4>Прибуток за проживання</h4>
                 <canvas id="doughnut-chart" width="808" height="300"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
                     new Chart(document.getElementById("doughnut-chart"), {
                         type: 'doughnut',
                         data: {
-                            labels: ["Сніданок (грн.)", "Обід (грн.)", "Вечеря (грн.)"],
+                            labels: ["Будинки (грн.)", "Намети (грн.)"],
                             datasets: [
                                 {
-                                    backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"],
-                                    data: [500, 3000, 1500]
+                                    backgroundColor: ["#2ecc71", "#f1c40f"],
+                                    data: [6000, 4000]
                                 }
                             ]
                         },
                         options: {
                             title: {
                                 display: true,
-                                text: 'Прибуток за харчування за останій рік (по типам)'
+                                text: 'Прибуток за проживання за останій рік (по типам)'
                             }
                         }
                     });
@@ -73,18 +73,13 @@
                             labels: ["Січень - Березень", "Квітень - Червень", "Липень - Вересень", "Жовтень - Грудень"],
                             datasets: [
                                 {
-                                    label: "Сніданок (грн.)",
+                                    label: "Будинки (грн.)",
                                     backgroundColor: "#2ecc71",
-                                    data: [100, 250, 25, 125]
+                                    data: [2500, 2000, 500, 1000]
                                 }, {
-                                    label: "Обід (грн.)",
+                                    label: "Намети (грн.)",
                                     backgroundColor: "#f1c40f",
-                                    data: [500, 1400, 200, 900]
-                                }
-                                , {
-                                    label: "Вечеря (грн.)",
-                                    backgroundColor: "#e74c3c",
-                                    data: [800, 100, 400, 200]
+                                    data: [500, 2500, 750, 250]
                                 }
                             ]
                         },
@@ -117,21 +112,21 @@
                             datasets: [
                                 {
                                     backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"],
-                                    data: [1000, 1500, 2500]
+                                    data: [2000, 5000, 3000]
                                 }
                             ]
                         },
                         options: {
                             title: {
                                 display: true,
-                                text: 'Прибуток за харчування за останій рік (по Альпіністським Базам)'
+                                text: 'Прибуток за проживання за останій рік (по Альпіністським Базам)'
                             }
                         }
                     });
                 </script>
             </div>
             <div class="well">
-                <h4>Альпіністська База - Харчування</h4>
+                <h4>Альпіністська База - Проживання</h4>
                 <canvas id="bar-chart-grouped1" width="808" height="400"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -143,16 +138,16 @@
                                 {
                                     label: "Сніданок (грн.)",
                                     backgroundColor: "#2ecc71",
-                                    data: [100, 400, 700]
+                                    data: [400, 1500, 500]
                                 }, {
                                     label: "Обід (грн.)",
                                     backgroundColor: "#f1c40f",
-                                    data: [400, 800, 1000]
+                                    data: [1000, 2500, 1000]
                                 }
                                 , {
                                     label: "Вечеря (грн.)",
                                     backgroundColor: "#e74c3c",
-                                    data: [500, 300, 800]
+                                    data: [600, 1000, 1500]
                                 }
                             ]
                         },
@@ -176,4 +171,3 @@
         </div>
     </div>
 </div>
-

@@ -1,72 +1,4 @@
-﻿@*@model Coursework.Models.Date
-
-@{
-    ViewBag.Title = "Бухгалтерський Облік";
-}
-
-<canvas id="doughnut-chart"width="1000" height="300"></canvas>
-<script src="~/Scripts/Chart.min.js"></script>
-    <script>
-        new Chart(document.getElementById("doughnut-chart"), {
-            type: 'doughnut',
-            data: { 
-                labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-                datasets: [
-                    {
-                        label: "Population (millions)",
-                        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-                        data: [2478, 5267, 734, 784, 433]
-                    }
-                ]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: 'Predicted world population (millions) in 2050'
-                }
-            }
-        });
-    </script>
-@using (Html.BeginForm())
-{
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <div class="col-md-2">
-                    <div class="control-label">
-                        <strong>Початкова дата</strong>
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-2">
-                    <div class="control-label">
-                        <strong>Кінцева дата</strong>
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Вивести" class="btn btn-default" />
-                </div>
-            </div>
-            
-        </div>
-    }*@
-
-@{
+﻿@{
     ViewBag.Title = "Бухгалтерський Облік";
 }
 
@@ -82,10 +14,10 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active">@Html.ActionLink("Загальний прибуток", "Index", "Accounting")</li>
-                <li>@Html.ActionLink("Проживання", "HouseProfit", "Accounting")</li>
-                <li>@Html.ActionLink("Харчування", "FoodProfit", "Accounting")</li>
-                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Accounting")</li>
+                <li class="active">@Html.ActionLink("Загальна інформація", "Index", "Accounting")</li>
+                <li>@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
+                <li>@Html.ActionLink("Прибуток по Альпіністам", "Report2", "Accounting")</li>
+                <li>@Html.ActionLink("Прибуток за Період", "BaseProfit", "Accounting")</li>
             </ul>
         </div>
     </div>
@@ -96,79 +28,15 @@
         <div class="col-sm-3 sidenav hidden-xs">
             <h2>Бухгалтерський Облік</h2>
             <ul class="nav nav-pills nav-stacked">
-                <li class="active">@Html.ActionLink("Загальний прибуток", "Index", "Accounting")</li>
-                <li>@Html.ActionLink("Проживання", "HouseProfit", "Accounting")</li>
-                <li>@Html.ActionLink("Харчування", "FoodProfit", "Accounting")</li>
-                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Accounting")</li>
+                <li class="active">@Html.ActionLink("Загальна інформація", "Index", "Accounting")</li>
+                <li>@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
+                <li>@Html.ActionLink("Прибуток по Альпіністам", "Report2", "Accounting")</li>
+                <li>@Html.ActionLink("Прибуток за Період", "BaseProfit", "Accounting")</li>
             </ul><br>
         </div>
         <br>
 
         <div class="col-sm-9">
-            <div class="well">
-                <h4>Загальний прибуток</h4>
-                <canvas id="doughnut-chart" width="808" height="300"></canvas>
-                <script src="~/Scripts/Chart.js"></script>
-                <script>
-                    new Chart(document.getElementById("doughnut-chart"), {
-                        type: 'doughnut',
-                        data: {
-                            labels: ["Проживання (грн.)", "Харчування (грн.)"],
-                            datasets: [
-                                {
-                                    backgroundColor: ["#f1c40f", "#e74c3c"],
-                                    data: [10000, 5000]
-                                }
-                            ]
-                        },
-                        options: {
-                            title: {
-                                display: true,
-                                text: 'Загальний Прибуток за останій рік'
-                            }
-                        }
-                    });
-                </script>
-            </div>
-                  
-            <div class="well">
-                <h4>Графік Прибутку</h4>
-                <canvas id="bar-chart-grouped" width="808" height="400"></canvas>
-                <script src="~/Scripts/Chart.js"></script>
-                <script>
-                    new Chart(document.getElementById("bar-chart-grouped"), {
-                        type: 'bar',
-                        data: {
-                            labels: ["Січень - Березень", "Квітень - Червень", "Липень - Вересень", "Жовтень - Грудень"],
-                            datasets: [
-                                {
-                                    label: "Проживання (грн.)",
-                                    backgroundColor: "#f1c40f",
-                                    data: [4000, 2000, 3000, 1000]
-                                }, {
-                                    label: "Харчування (грн.)",
-                                    backgroundColor: "#e74c3c",
-                                    data: [500, 2500, 500, 1500]
-                                }
-                            ]
-                        },
-                        options: {
-                            title: {
-                                display: true,
-                                text: 'Прибуток'
-                            },
-                            scales: {
-                                xAxes: [{
-                                    stacked: true
-                                }],
-                                yAxes: [{
-                                    stacked: true
-                                }]
-                            }
-                        }
-                    });
-                </script>
-            </div>
-        </div>
+        </div>   
     </div>
 </div >

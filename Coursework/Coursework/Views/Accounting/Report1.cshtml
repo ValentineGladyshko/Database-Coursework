@@ -1,23 +1,25 @@
 ﻿@model Coursework.Models.Date
 
 @{
-    ViewBag.Title = "Report";
+    ViewBag.Title = "Звіт замовлень альпіністів";
 }
 
-<h2>Report</h2>
-
-
-
-@using (Html.BeginForm(IsPost))
+<h2>Звіт</h2>
+<br />
+<p class="my-p">
+    Виводить всі замовлення за певний період
+</p>
+<br />
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Date</h4>
+        <h4>Введіть дані для звіту:</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            <label class="control-label col-md-2" for="DateStart">Початкова Дата</label>
+            @Html.LabelFor(model => model.DateStart, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateStart, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
@@ -25,21 +27,20 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2" for="DateEnd">Кінцева Дата</label>
+            @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Згенерувати звіт" class="btn btn-default" />
             </div>
         </div>
-</div>
-}
-@{
+    </div>
+
     if (IsPost)
     {
         var queryString = "SELECT " +
@@ -56,7 +57,15 @@
     "ON [HO].[HouseID] = [H].[HouseID] " +
     "JOIN [HouseTypes] AS [HT] " +
     "ON [H].[HouseTypeID] = [HT].[HouseTypeID] " +
-    "WHERE ([DateStart] BETWEEN '2017-09-23' AND '2017-09-24') AND ([DateEnd] BETWEEN '2017-09-23' AND '2017-09-24') " +
+    "WHERE ( [DateStart] BETWEEN '" +
+    Model.DateStart.ToString("yyyy-MM-dd") +
+    "' AND '" +
+    Model.DateEnd.ToString("yyyy-MM-dd") +
+    "') AND ([DateEnd] BETWEEN '" +
+    Model.DateStart.ToString("yyyy-MM-dd") +
+    "' AND '" +
+    Model.DateEnd.ToString("yyyy-MM-dd") +
+    "') " +
     "UNION " +
     "SELECT" +
     "[FirstName], " +
@@ -69,13 +78,19 @@
     "JOIN [Alpinists] AS [A] ON [A].[AlpinistID] = [FO].[AlpinistID] " +
     "JOIN [FoodTypes] AS [FT] " +
     "ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
-    "WHERE ([Date] BETWEEN '2017-09-23' AND '2017-09-24')ORDER BY [DateStart]";
+    "WHERE ([Date] BETWEEN '" +
+    Model.DateStart.ToString("yyyy-MM-dd") +
+    "' AND '" +
+    Model.DateEnd.ToString("yyyy-MM-dd") +
+    "')ORDER BY [DateStart]";
         var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS; Initial Catalog = Coursework; Integrated Security = True");
         connection.Open();
         System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
         System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
-        List<Object[]> list = new List<Object[]>();
+        List<Object[]>
+    list = new List<Object[]>
+        ();
         while (reader.Read())
         {
             Object[] values = new Object[reader.FieldCount];
@@ -108,8 +123,9 @@
                 }
             </tbody>
         </table>
-                    }
+    }
 }
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

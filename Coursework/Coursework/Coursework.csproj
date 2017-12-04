@@ -162,6 +162,7 @@
     <Compile Include="Controllers\HouseTypesController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\RouteStatesController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\WalksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -280,11 +281,11 @@
     <Content Include="Views\Walks\Edit.cshtml" />
     <Content Include="Views\Walks\Index.cshtml" />
     <Content Include="Views\Accounting\Index.cshtml" />
-    <Content Include="Views\Accounting\HouseProfit.cshtml" />
-    <Content Include="Views\Accounting\FoodProfit.cshtml" />
-    <Content Include="Views\Accounting\BaseProfit.cshtml" />
-    <Content Include="Views\Accounting\Report.cshtml" />
-    <Content Include="Views\Accounting\newReport.cshtml" />
+    <Content Include="Views\Accounting\Report1.cshtml" />
+    <Content Include="Views\Statistics\BaseProfit.cshtml" />
+    <Content Include="Views\Statistics\FoodProfit.cshtml" />
+    <Content Include="Views\Statistics\HouseProfit.cshtml" />
+    <Content Include="Views\Statistics\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
