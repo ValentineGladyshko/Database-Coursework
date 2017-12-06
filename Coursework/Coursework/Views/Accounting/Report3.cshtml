@@ -1,7 +1,7 @@
 ﻿@model Coursework.Models.Date
 
 @{
-    ViewBag.Title = "Звіт замовлень альпіністів";
+    ViewBag.Title = "Звіт прибутку по типам послуг";
 }
 
 @using (Html.BeginForm())
@@ -20,9 +20,9 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Загальна інформація", "Index", "Accounting")</li>
-                    <li class="active">@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
+                    <li>@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
                     <li>@Html.ActionLink("Прибуток по Альпіністам", "Report2", "Accounting")</li>
-                    <li>@Html.ActionLink("Прибуток по Типам Послуг", "Report3", "Accounting")</li>
+                    <li class="active">@Html.ActionLink("Прибуток по Типам Послуг", "Report3", "Accounting")</li>
                 </ul>
             </div>
         </div>
@@ -34,9 +34,9 @@
                 <h2>Бухгалтерський Облік</h2>
                 <ul class="nav nav-pills nav-stacked">
                     <li>@Html.ActionLink("Загальна інформація", "Index", "Accounting")</li>
-                    <li class="active">@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
+                    <li>@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
                     <li>@Html.ActionLink("Прибуток по Альпіністам", "Report2", "Accounting")</li>
-                    <li>@Html.ActionLink("Прибуток по Типам Послуг", "Report3", "Accounting")</li>
+                    <li class="active">@Html.ActionLink("Прибуток по Типам Послуг", "Report3", "Accounting")</li>
                 </ul><br>
             </div>
             <br>
@@ -45,7 +45,7 @@
                 <h2>Звіт</h2>
                 <br />
                 <p class="my-p">
-                    Виводить всі замовлення за певний період
+                    Виводить загальний прибуток по типам послуг за певний період
                 </p>
                 <br />
                 <div class="form-horizontal">
@@ -81,46 +81,54 @@
 
     if (IsPost)
     {
-        var queryString = "SELECT " +
-    "[FirstName], " +
-    "[LastName], " +
-    "[DateStart], " +
-    "[DateEnd], " +
-    "[HT].[Name], " +
-    "[Price]*(DateDiff(DD,[DateStart],[DateEnd])+1) AS [Price] " +
-    "FROM [HouseOrders] AS [HO] " +
-    "JOIN [Alpinists] AS [A] " +
-    "ON [A].[AlpinistID] = [HO].[AlpinistID] " +
-    "JOIN [Houses] AS [H] " +
-    "ON [HO].[HouseID] = [H].[HouseID] " +
-    "JOIN [HouseTypes] AS [HT] " +
-    "ON [H].[HouseTypeID] = [HT].[HouseTypeID] " +
-    "WHERE ( [DateStart] BETWEEN '" +
-    Model.DateStart.ToString("yyyy-MM-dd") +
-    "' AND '" +
-    Model.DateEnd.ToString("yyyy-MM-dd") +
-    "') AND ([DateEnd] BETWEEN '" +
-    Model.DateStart.ToString("yyyy-MM-dd") +
-    "' AND '" +
-    Model.DateEnd.ToString("yyyy-MM-dd") +
-    "') " +
-    "UNION " +
-    "SELECT" +
-    "[FirstName], " +
-    "[LastName], " +
-    "[Date] AS [DateStart], " +
-    "null AS [DateEnd], " +
-    "[Name], " +
-    "[Price] " +
-    "FROM [FoodOrders] AS [FO] " +
-    "JOIN [Alpinists] AS [A] ON [A].[AlpinistID] = [FO].[AlpinistID] " +
-    "JOIN [FoodTypes] AS [FT] " +
-    "ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
-    "WHERE ([Date] BETWEEN '" +
-    Model.DateStart.ToString("yyyy-MM-dd") +
-    "' AND '" +
-    Model.DateEnd.ToString("yyyy-MM-dd") +
-    "')ORDER BY [DateStart]";
+        var queryString = "SELECT  " +
+ "	[Name], " +
+ "	SUM([Price]) AS [Profit] " +
+ "FROM [Alpinists] AS [A] " +
+ "JOIN  " +
+ "(SELECT " +
+ "	[A].[AlpinistID], " +
+ "	[DateStart], " +
+ "    [DateEnd], " +
+ "	[HT].[Name], " +
+ "	[Price]*(DateDiff(DD,[DateStart],[DateEnd])+1) AS [Price] " +
+ "FROM [HouseOrders] AS [HO] " +
+ "JOIN [Alpinists] AS [A] " +
+ "	ON [A].[AlpinistID] = [HO].[AlpinistID] " +
+ "JOIN [Houses] AS [H] " +
+ "	ON [HO].[HouseID] = [H].[HouseID] " +
+ "JOIN [HouseTypes] AS [HT] " +
+ "	ON [H].[HouseTypeID] = [HT].[HouseTypeID] " +
+ "WHERE ([DateStart] BETWEEN '" +
+  Model.DateStart.ToString("yyyy - MM - dd") +
+  "' AND '" +
+  Model.DateEnd.ToString("yyyy - MM - dd") +
+  "') AND ([DateEnd] BETWEEN '" +
+  Model.DateStart.ToString("yyyy - MM - dd") +
+  "' AND '" +
+  Model.DateEnd.ToString("yyyy - MM - dd") +
+  "') " +
+ "UNION  " +
+ "SELECT  " +
+ "	[A].[AlpinistID], " +
+ "	[Date] AS [DateStart], " +
+ "	NULL AS [DateEnd], " +
+ "	[Name], " +
+ "	[Price] " +
+ "FROM [FoodOrders] AS [FO] " +
+ "JOIN [Alpinists] AS [A] " +
+ "	ON [A].[AlpinistID] = [FO].[AlpinistID] " +
+ "JOIN [FoodTypes] AS [FT] " +
+ "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+ "WHERE ([Date] BETWEEN '" +
+  Model.DateStart.ToString("yyyy - MM - dd") +
+  "' AND '" +
+  Model.DateEnd.ToString("yyyy - MM - dd") +
+  "')  " +
+ ") AS [P] " +
+ "ON [A].[AlpinistID] = [P].[AlpinistID] " +
+ "GROUP BY [Name] " +
+ "ORDER BY [Profit] DESC";
         var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS; Initial Catalog = Coursework; Integrated Security = True");
         connection.Open();
         System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
@@ -139,41 +147,33 @@
         var sum = 0;
         foreach (Object[] element in list)
         {
-            sum += Convert.ToInt32(element[5]);
+            sum += Convert.ToInt32(element[1]);
         }
         <br />
         <br />
-        <h4 align = "center" class = "my-th">Загальний прибуток: @sum₴</h4>
+        <h4 align="center" class="my-th">Загальний прибуток: @sum₴</h4>
         <br />
         <br />
         <br />
         <table class="table">
             <tbody>
                 <tr>
-                    <th class="my-th">Ім'я</th>
-                    <th class="my-th">Прізвище</th>
-                    <th class="my-th">Початкова дата</th>
-                    <th class="my-th">Кінцева дата</th>
                     <th class="my-th">Тип послуги</th>
-                    <th class="my-th">Ціна</th>
+                    <th class="my-th">Прибуток</th>
                 </tr>
                 @{
                     foreach (Object[] element in list)
                     {
                         <tr>
                             <th>@element[0]</th>
-                            <th>@element[1]</th>
-                            <th>@element[2]</th>
-                            <th>@element[3]</th>
-                            <th>@element[4]</th>
-                            <th>@element[5]₴</th>
+                            <th>@element[1]₴</th>
                         </tr>
                     }
                 }
             </tbody>
         </table>
-    }
-}
+                        }
+                    }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

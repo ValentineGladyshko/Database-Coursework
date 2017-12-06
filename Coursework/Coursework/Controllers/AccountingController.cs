@@ -16,20 +16,7 @@ namespace Coursework.Controllers
             return View();
         }
 
-        public ActionResult HouseProfit()
-        {
-            return View();
-        }
-
-        public ActionResult FoodProfit()
-        {
-            return View();
-        }
-
-        public ActionResult BaseProfit()
-        {
-            return View();
-        }
+        
         public ActionResult Report1()
         {
             return View();
@@ -38,6 +25,40 @@ namespace Coursework.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Report1([Bind(Include = "DateStart,DateEnd")] Date date)
+        {
+            if (ModelState.IsValid)
+            {
+                return View(date);
+            }
+
+            return View(date);
+        }
+
+        public ActionResult Report2()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Report2([Bind(Include = "DateStart,DateEnd")] Date date)
+        {
+            if (ModelState.IsValid)
+            {
+                return View(date);
+            }
+
+            return View(date);
+        }
+
+        public ActionResult Report3()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Report3([Bind(Include = "DateStart,DateEnd")] Date date)
         {
             if (ModelState.IsValid)
             {

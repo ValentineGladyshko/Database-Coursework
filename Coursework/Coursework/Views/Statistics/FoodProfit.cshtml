@@ -2,6 +2,160 @@
     ViewBag.Title = "Харчування";
 }
 
+@{
+    DateTime DateStart = new DateTime(DateTime.Today.Year, 1, 1);
+    DateTime DateEnd = new DateTime(DateTime.Today.Year, 12, 31);
+
+    string[] FoodTypes = new string[] { "Breakfast", "Dinner", "Lunch" };
+    string[] Countries = new string[] { "Georgia", "Russia", "Kyrgyzstan" };
+
+    int[] sum1_1 = new int[3];
+    int[] sum1_2 = new int[3];
+    int[,] sum2_1 = new int[4, 3];
+    int[,] sum2_2 = new int[3, 3];
+
+    Object[] values = new Object[1];
+
+    var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+        Initial Catalog = Coursework; Integrated Security = True");
+    var queryString = "SELECT * FROM [AlpinistBases]";
+
+    connection.Open();
+    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+    connection.Close();
+
+    for (int i = 0; i < 3; i++)
+    {
+        queryString = "SELECT 	 " +
+            "	SUM([Price]) AS [Profit] " +
+            "FROM [FoodOrders] AS [FO] " +
+            "JOIN [FoodTypes] AS [FT] " +
+            "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+            "WHERE ([Date] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "') AND ([Name] = '" +
+            FoodTypes[i] +
+            "')";
+
+        connection.Open();
+        command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+        reader = command.ExecuteReader();
+        reader.Read();
+        reader.GetValues(values);
+        sum1_1[i] = 0;
+        if (!DBNull.Value.Equals(values[0]))
+        {
+            sum1_1[i] = Convert.ToInt32(values[0]);
+        }
+        connection.Close();
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        queryString = "SELECT 	 " +
+            "	SUM([Price]) AS [Profit] " +
+            "FROM [FoodOrders] AS [FO] " +
+            "JOIN [FoodTypes] AS [FT] " +
+            "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+            "JOIN [AlpinistsList] AS [AL]" +
+            "	ON [FO].[AlpinistID] = [AL].[AlpinistID]" +
+            "JOIN [AlpinistBases] AS [AB]" +
+            "	ON [AL].[AlpinistBaseID] = [AB].[AlpinistBaseID]" +
+            "WHERE ([Date] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "') AND ([AB].[Country] = '" +
+            Countries[i] +
+            "')";
+
+        connection.Open();
+        command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+        reader = command.ExecuteReader();
+        reader.Read();
+        reader.GetValues(values);
+        sum1_2[i] = 0;
+        if (!DBNull.Value.Equals(values[0]))
+        {
+            sum1_2[i] = Convert.ToInt32(values[0]);
+        }
+        connection.Close();
+    }
+
+    DateEnd = DateStart;
+    DateStart = DateStart.AddMonths(-3);
+
+    for (int i = 0; i < 4; i++)
+    {
+        DateStart = DateStart.AddMonths(3);
+        DateEnd = DateEnd.AddMonths(3);
+        for (int j = 0; j < 3; j++)
+        {
+
+            queryString = "SELECT 	 " +
+                "	SUM([Price]) AS [Profit] " +
+                "FROM [FoodOrders] AS [FO] " +
+                "JOIN [FoodTypes] AS [FT] " +
+                "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+                "WHERE ([Date] BETWEEN '" +
+                DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+                DateEnd.ToString("yyyy-MM-dd") + "') AND ([Name] = '" +
+                FoodTypes[j] +
+                "')";
+
+            connection.Open();
+            command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+            reader = command.ExecuteReader();
+            reader.Read();
+            reader.GetValues(values);
+            sum2_1[i, j] = 0;
+            if (!DBNull.Value.Equals(values[0]))
+            {
+                sum2_1[i, j] = Convert.ToInt32(values[0]);
+            }
+            connection.Close();
+        }
+    }
+
+    DateStart = new DateTime(DateTime.Today.Year, 1, 1);
+    DateEnd = new DateTime(DateTime.Today.Year, 12, 31);
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+
+            queryString = "SELECT 	 " +
+            "	SUM([Price]) AS [Profit] " +
+            "FROM [FoodOrders] AS [FO] " +
+            "JOIN [FoodTypes] AS [FT] " +
+            "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+            "JOIN [AlpinistsList] AS [AL]" +
+            "	ON [FO].[AlpinistID] = [AL].[AlpinistID]" +
+            "JOIN [AlpinistBases] AS [AB]" +
+            "	ON [AL].[AlpinistBaseID] = [AB].[AlpinistBaseID]" +
+            "WHERE ([Date] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "') AND ([AB].[Country] = '" +
+            Countries[i] +
+            "') AND ([Name] = '" +
+            FoodTypes[j] +
+            "')";
+
+            connection.Open();
+            command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+            reader = command.ExecuteReader();
+            reader.Read();
+            reader.GetValues(values);
+            sum2_2[i, j] = 0;
+            if (!DBNull.Value.Equals(values[0]))
+            {
+                sum2_2[i, j] = Convert.ToInt32(values[0]);
+            }
+            connection.Close();
+        }
+    }
+}
+
 <nav class="navbar navbar-inverse visible-xs">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -49,14 +203,14 @@
                             datasets: [
                                 {
                                     backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"],
-                                    data: [500, 3000, 1500]
+                                    data: [@sum1_1[0], @sum1_1[1], @sum1_1[2]]
                                 }
                             ]
                         },
                         options: {
                             title: {
                                 display: true,
-                                text: 'Прибуток за харчування за останій рік (по типам)'
+                                text: 'Прибуток за харчування за поточний рік (по типам)'
                             }
                         }
                     });
@@ -75,16 +229,15 @@
                                 {
                                     label: "Сніданок (грн.)",
                                     backgroundColor: "#2ecc71",
-                                    data: [100, 250, 25, 125]
+                                    data: [@sum2_1[0, 0], @sum2_1[1, 0], @sum2_1[2, 0], @sum2_1[3, 0]]
                                 }, {
                                     label: "Обід (грн.)",
                                     backgroundColor: "#f1c40f",
-                                    data: [500, 1400, 200, 900]
-                                }
-                                , {
+                                    data: [@sum2_1[0, 1], @sum2_1[1, 1], @sum2_1[2, 1], @sum2_1[3, 1]]
+                                }, {
                                     label: "Вечеря (грн.)",
                                     backgroundColor: "#e74c3c",
-                                    data: [800, 100, 400, 200]
+                                    data: [@sum2_1[0, 2], @sum2_1[1, 2], @sum2_1[2, 2], @sum2_1[3, 2]]
                                 }
                             ]
                         },
@@ -117,14 +270,14 @@
                             datasets: [
                                 {
                                     backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"],
-                                    data: [1000, 1500, 2500]
+                                    data: [@sum1_2[0], @sum1_2[1], @sum1_2[2]]
                                 }
                             ]
                         },
                         options: {
                             title: {
                                 display: true,
-                                text: 'Прибуток за харчування за останій рік (по Альпіністським Базам)'
+                                text: 'Прибуток за харчування за поточний рік (по Альпіністським Базам)'
                             }
                         }
                     });
@@ -143,16 +296,15 @@
                                 {
                                     label: "Сніданок (грн.)",
                                     backgroundColor: "#2ecc71",
-                                    data: [100, 400, 700]
+                                    data: [@sum2_2[0, 0], @sum2_2[1, 0], @sum2_2[2, 0]]
                                 }, {
                                     label: "Обід (грн.)",
                                     backgroundColor: "#f1c40f",
-                                    data: [400, 800, 1000]
-                                }
-                                , {
+                                    data: [@sum2_2[0, 1], @sum2_2[1, 1], @sum2_2[2, 1]]
+                                }, {
                                     label: "Вечеря (грн.)",
                                     backgroundColor: "#e74c3c",
-                                    data: [500, 300, 800]
+                                    data: [@sum2_2[0, 2], @sum2_2[1, 2], @sum2_2[2, 2]]
                                 }
                             ]
                         },

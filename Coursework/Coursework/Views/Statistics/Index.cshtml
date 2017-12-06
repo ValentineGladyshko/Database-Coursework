@@ -2,6 +2,116 @@
     ViewBag.Title = "Статистика";
 }
 
+@{  
+    DateTime DateStart = new DateTime(DateTime.Today.Year, 1, 1);
+    DateTime DateEnd = new DateTime(DateTime.Today.Year, 12, 31);
+    int[] sum1 = new int[4];
+    int[] sum2 = new int[4];
+    int sum1_1 = 0;
+    int sum1_2 = 0;
+    var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+        Initial Catalog = Coursework; Integrated Security = True");
+    var queryString1 = "SELECT " +
+        "	SUM([Price]*(DateDiff(DD,[DateStart],[DateEnd])+1)) AS [Profit] " +
+        "FROM [HouseOrders] AS [HO] " +
+        "JOIN [Houses] AS [H] " +
+        "	ON [HO].[HouseID] = [H].[HouseID] " +
+        "JOIN [HouseTypes] AS [HT] " +
+        "	ON [H].[HouseTypeID] = [HT].[HouseTypeID] " +
+        "WHERE ([DateStart] BETWEEN '" +
+        DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+        DateEnd.ToString("yyyy-MM-dd") +"') " +
+        "AND ([DateEnd] BETWEEN '" +
+        DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+        DateEnd.ToString("yyyy-MM-dd") + "') ";
+    var queryString2 = "SELECT 	 " +
+        "	SUM([Price]) AS [Profit] " +
+        "FROM [FoodOrders] AS [FO] " +
+        "JOIN [FoodTypes] AS [FT] " +
+        "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+        "WHERE ([Date] BETWEEN '" +
+        DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+        DateEnd.ToString("yyyy-MM-dd") + "') ";
+
+    connection.Open();
+    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString1, connection);
+    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+    Object[] values = new Object[reader.FieldCount];
+    reader.Read();
+    reader.GetValues(values);
+    if (!DBNull.Value.Equals(values[0]))
+    {
+        sum1_1 = Convert.ToInt32(values[0]);
+    }
+    connection.Close();
+
+    connection.Open();
+    command = new System.Data.SqlClient.SqlCommand(queryString2, connection);
+    reader = command.ExecuteReader();
+    reader.Read();
+    reader.GetValues(values);
+    if (!DBNull.Value.Equals(values[0]))
+    {
+        sum1_2 = Convert.ToInt32(values[0]);
+    }
+    connection.Close();
+
+    DateEnd = DateStart;
+    DateStart = DateStart.AddMonths(-3);
+
+    for (int i = 0; i < 4; i++)
+    {
+        DateStart = DateStart.AddMonths(3);
+        DateEnd = DateEnd.AddMonths(3);
+
+        queryString1 = "SELECT " +
+            "	SUM([Price]*(DateDiff(DD,[DateStart],[DateEnd])+1)) AS [Profit] " +
+            "FROM [HouseOrders] AS [HO] " +
+            "JOIN [Houses] AS [H] " +
+            "	ON [HO].[HouseID] = [H].[HouseID] " +
+            "JOIN [HouseTypes] AS [HT] " +
+            "	ON [H].[HouseTypeID] = [HT].[HouseTypeID] " +
+            "WHERE ([DateStart] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "') " +
+            "AND ([DateEnd] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "') ";
+        queryString2 = "SELECT 	 " +
+            "	SUM([Price]) AS [Profit] " +
+            "FROM [FoodOrders] AS [FO] " +
+            "JOIN [FoodTypes] AS [FT] " +
+            "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+            "WHERE ([Date] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "') ";
+
+        connection.Open();
+        command = new System.Data.SqlClient.SqlCommand(queryString1, connection);
+        reader = command.ExecuteReader();
+        reader.Read();
+        reader.GetValues(values);
+        sum1[i] = 0;
+        if (!DBNull.Value.Equals(values[0]))
+        {
+            sum1[i] = Convert.ToInt32(values[0]);
+        }
+        connection.Close();
+
+        connection.Open();
+        command = new System.Data.SqlClient.SqlCommand(queryString2, connection);
+        reader = command.ExecuteReader();
+        reader.Read();
+        reader.GetValues(values);
+        sum2[i] = 0;
+        if (!DBNull.Value.Equals(values[0]))
+        {
+            sum2[i] = Convert.ToInt32(values[0]);
+        }
+        connection.Close();
+    }
+}
+
 <nav class="navbar navbar-inverse visible-xs">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -49,14 +159,14 @@
                             datasets: [
                                 {
                                     backgroundColor: ["#f1c40f", "#e74c3c"],
-                                    data: [10000, 5000]
+                                    data: [@sum1_1, @sum1_2]
                                 }
                             ]
                         },
                         options: {
                             title: {
                                 display: true,
-                                text: 'Загальний Прибуток за останій рік'
+                                text: 'Загальний Прибуток за поточний рік'
                             }
                         }
                     });
@@ -76,11 +186,11 @@
                                 {
                                     label: "Проживання (грн.)",
                                     backgroundColor: "#f1c40f",
-                                    data: [4000, 2000, 3000, 1000]
+                                    data: [@sum1[0], @sum1[1], @sum1[2], @sum1[3]]
                                 }, {
                                     label: "Харчування (грн.)",
                                     backgroundColor: "#e74c3c",
-                                    data: [500, 2500, 500, 1500]
+                                    data: [@sum2[0], @sum2[1], @sum2[2], @sum2[3]]
                                 }
                             ]
                         },

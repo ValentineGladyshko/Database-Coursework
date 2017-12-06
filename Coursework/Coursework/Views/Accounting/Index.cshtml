@@ -17,7 +17,7 @@
                 <li class="active">@Html.ActionLink("Загальна інформація", "Index", "Accounting")</li>
                 <li>@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
                 <li>@Html.ActionLink("Прибуток по Альпіністам", "Report2", "Accounting")</li>
-                <li>@Html.ActionLink("Прибуток за Період", "BaseProfit", "Accounting")</li>
+                <li>@Html.ActionLink("Прибуток по Типам Послуг", "Report3", "Accounting")</li>
             </ul>
         </div>
     </div>
@@ -31,12 +31,27 @@
                 <li class="active">@Html.ActionLink("Загальна інформація", "Index", "Accounting")</li>
                 <li>@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
                 <li>@Html.ActionLink("Прибуток по Альпіністам", "Report2", "Accounting")</li>
-                <li>@Html.ActionLink("Прибуток за Період", "BaseProfit", "Accounting")</li>
+                <li>@Html.ActionLink("Прибуток по Типам Послуг", "Report3", "Accounting")</li>
             </ul><br>
         </div>
         <br>
-
+        @*<div class="col-sm-2">
+        </div>*@
         <div class="col-sm-9">
-        </div>   
+            <h4>
+                Тут ви можете дізнатись всю необхідну інформацію стосовно фінансів вашої Альпіністської Бази.
+            </h4>
+            <h4>
+                А саме різноманітні звіти з можливістю вибирати період:
+            </h4>
+            <br />
+            <ul>
+                <li><p class="my-p">@Html.ActionLink("Звіт замовлень альпіністів", "Report1", "Accounting")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Звіт прибутку по альпіністам", "Report2", "Accounting")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Звіт прибутку по типам послуг", "Report3", "Accounting")</p></li>
+            </ul>
+            @*</div>
+            <div class="col-sm-2">*@
+        </div>
     </div>
-</div >
+</div>

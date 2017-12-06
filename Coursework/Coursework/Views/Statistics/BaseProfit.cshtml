@@ -3,6 +3,222 @@
     ViewBag.Title = "Альпіністські Бази";
 }
 
+@{
+    DateTime DateStart = new DateTime(DateTime.Today.Year, 1, 1);
+    DateTime DateEnd = new DateTime(DateTime.Today.Year, 12, 31);
+
+    string[] OrderTypes = new string[] { "HouseOrder", "FoodOrder" };
+    string[] Countries = new string[] { "Georgia", "Russia", "Kyrgyzstan" };
+
+    int[] sum1_1 = new int[3];
+    int[,] sum2_1 = new int[4, 3];
+    int[,] sum2_2 = new int[3, 2];
+
+    Object[] values = new Object[1];
+
+    var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+        Initial Catalog = Coursework; Integrated Security = True");
+    var queryString = "SELECT * FROM [AlpinistBases]";
+
+    connection.Open();
+    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+    connection.Close();
+
+    for (int i = 0; i < 3; i++)
+    {
+        queryString = "SELECT " +
+            "	SUM([Price]) AS [Profit]" +
+            "FROM [AlpinistBases] AS [AB]" +
+            "JOIN [AlpinistsList] AS [AL]" +
+            "	ON [AB].[AlpinistBaseID] = [AL].[AlpinistBaseID]" +
+            "JOIN " +
+            "(SELECT" +
+            "	[A].[AlpinistID]," +
+            "	[DateStart]," +
+            "    [DateEnd]," +
+            "	[Price]*(DateDiff(DD,[DateStart],[DateEnd])+1) AS [Price]" +
+            "FROM [HouseOrders] AS [HO]" +
+            "JOIN [Alpinists] AS [A]" +
+            "	ON [A].[AlpinistID] = [HO].[AlpinistID]" +
+            "JOIN [Houses] AS [H]" +
+            "	ON [HO].[HouseID] = [H].[HouseID]" +
+            "JOIN [HouseTypes] AS [HT]" +
+            "	ON [H].[HouseTypeID] = [HT].[HouseTypeID]" +
+            "WHERE ([DateStart] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "') AND ([DateEnd] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "')" +
+            "UNION " +
+            "SELECT " +
+            "	[A].[AlpinistID]," +
+            "	[Date] AS [DateStart]," +
+            "	NULL AS [DateEnd]," +
+            "	[Price]" +
+            "FROM [FoodOrders] AS [FO]" +
+            "JOIN [Alpinists] AS [A]" +
+            "	ON [A].[AlpinistID] = [FO].[AlpinistID]" +
+            "JOIN [FoodTypes] AS [FT]" +
+            "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID]" +
+            "WHERE ([Date] BETWEEN '" +
+            DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+            DateEnd.ToString("yyyy-MM-dd") + "') " +
+            ") AS [P]" +
+            "ON [AL].[AlpinistID] = [P].[AlpinistID]" +
+            "WHERE ([Country] = '" +
+            Countries[i] +
+            "')";
+
+        connection.Open();
+        command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+        reader = command.ExecuteReader();
+        reader.Read();
+        reader.GetValues(values);
+        sum1_1[i] = 0;
+        if (!DBNull.Value.Equals(values[0]))
+        {
+            sum1_1[i] = Convert.ToInt32(values[0]);
+        }
+        connection.Close();
+    }
+
+    DateEnd = DateStart;
+    DateStart = DateStart.AddMonths(-3);
+
+    for (int i = 0; i < 4; i++)
+    {
+        DateStart = DateStart.AddMonths(3);
+        DateEnd = DateEnd.AddMonths(3);
+        for (int j = 0; j < 3; j++)
+        {
+            queryString = "SELECT " +
+                "	SUM([Price]) AS [Profit]" +
+                "FROM [AlpinistBases] AS [AB]" +
+                "JOIN [AlpinistsList] AS [AL]" +
+                "	ON [AB].[AlpinistBaseID] = [AL].[AlpinistBaseID]" +
+                "JOIN " +
+                "(SELECT" +
+                "	[A].[AlpinistID]," +
+                "	[DateStart]," +
+                "    [DateEnd]," +
+                "	[Price]*(DateDiff(DD,[DateStart],[DateEnd])+1) AS [Price]" +
+                "FROM [HouseOrders] AS [HO]" +
+                "JOIN [Alpinists] AS [A]" +
+                "	ON [A].[AlpinistID] = [HO].[AlpinistID]" +
+                "JOIN [Houses] AS [H]" +
+                "	ON [HO].[HouseID] = [H].[HouseID]" +
+                "JOIN [HouseTypes] AS [HT]" +
+                "	ON [H].[HouseTypeID] = [HT].[HouseTypeID]" +
+                "WHERE ([DateStart] BETWEEN '" +
+                DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+                DateEnd.ToString("yyyy-MM-dd") + "') AND ([DateEnd] BETWEEN '" +
+                DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+                DateEnd.ToString("yyyy-MM-dd") + "')" +
+                "UNION " +
+                "SELECT " +
+                "	[A].[AlpinistID]," +
+                "	[Date] AS [DateStart]," +
+                "	NULL AS [DateEnd]," +
+                "	[Price]" +
+                "FROM [FoodOrders] AS [FO]" +
+                "JOIN [Alpinists] AS [A]" +
+                "	ON [A].[AlpinistID] = [FO].[AlpinistID]" +
+                "JOIN [FoodTypes] AS [FT]" +
+                "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID]" +
+                "WHERE ([Date] BETWEEN '" +
+                DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+                DateEnd.ToString("yyyy-MM-dd") + "') " +
+                ") AS [P]" +
+                "ON [AL].[AlpinistID] = [P].[AlpinistID]" +
+                "WHERE ([Country] = '" +
+                Countries[j] +
+                "')";
+
+            connection.Open();
+            command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+            reader = command.ExecuteReader();
+            reader.Read();
+            reader.GetValues(values);
+            sum2_1[i, j] = 0;
+            if (!DBNull.Value.Equals(values[0]))
+            {
+                sum2_1[i, j] = Convert.ToInt32(values[0]);
+            }
+            connection.Close();
+        }
+    }
+
+    DateStart = new DateTime(DateTime.Today.Year, 1, 1);
+    DateEnd = new DateTime(DateTime.Today.Year, 12, 31);
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+
+            queryString = "SELECT " +
+                "	SUM([Price]) AS [Profit]" +
+                "FROM [AlpinistBases] AS [AB]" +
+                "JOIN [AlpinistsList] AS [AL]" +
+                "	ON [AB].[AlpinistBaseID] = [AL].[AlpinistBaseID]" +
+                "JOIN " +
+                "(SELECT" +
+                "	[A].[AlpinistID]," +
+                "	[DateStart]," +
+                "   [DateEnd]," +
+                "	[Price]*(DateDiff(DD,[DateStart],[DateEnd])+1) AS [Price], " +
+                "   'HouseOrder' AS [Type] " +
+                "FROM [HouseOrders] AS [HO]" +
+                "JOIN [Alpinists] AS [A]" +
+                "	ON [A].[AlpinistID] = [HO].[AlpinistID]" +
+                "JOIN [Houses] AS [H]" +
+                "	ON [HO].[HouseID] = [H].[HouseID]" +
+                "JOIN [HouseTypes] AS [HT]" +
+                "	ON [H].[HouseTypeID] = [HT].[HouseTypeID]" +
+                "WHERE ([DateStart] BETWEEN '" +
+                DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+                DateEnd.ToString("yyyy-MM-dd") + "') AND ([DateEnd] BETWEEN '" +
+                DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+                DateEnd.ToString("yyyy-MM-dd") + "')" +
+                "UNION " +
+                "SELECT " +
+                "	[A].[AlpinistID]," +
+                "	[Date] AS [DateStart]," +
+                "	NULL AS [DateEnd]," +
+                "	[Price], " +
+                "   'FoodOrder' AS [Type] " +
+                "FROM [FoodOrders] AS [FO]" +
+                "JOIN [Alpinists] AS [A]" +
+                "	ON [A].[AlpinistID] = [FO].[AlpinistID]" +
+                "JOIN [FoodTypes] AS [FT]" +
+                "	ON [FO].[FoodTypeID] = [FT].[FoodTypeID]" +
+                "WHERE ([Date] BETWEEN '" +
+                DateStart.ToString("yyyy-MM-dd") + "' AND '" +
+                DateEnd.ToString("yyyy-MM-dd") + "') " +
+                ") AS [P]" +
+                "ON [AL].[AlpinistID] = [P].[AlpinistID]" +
+                "WHERE ([Country] = '" +
+                Countries[i] +
+                "') AND ([Type] = '" +
+                OrderTypes[j] +
+                "')";
+
+            connection.Open();
+            command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+            reader = command.ExecuteReader();
+            reader.Read();
+            reader.GetValues(values);
+            sum2_2[i, j] = 0;
+            if (!DBNull.Value.Equals(values[0]))
+            {
+                sum2_2[i, j] = Convert.ToInt32(values[0]);
+            }
+            connection.Close();
+        }
+    }
+}
+
 <nav class="navbar navbar-inverse visible-xs">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -50,14 +266,14 @@
                             datasets: [
                                 {
                                     backgroundColor: ["#2ecc71", "#f1c40f", "#e74c3c"],
-                                    data: [3000, 6500, 5500]
+                                    data: [@sum1_1[0], @sum1_1[1], @sum1_1[2]]
                                 }
                             ]
                         },
                         options: {
                             title: {
                                 display: true,
-                                text: 'Прибуток по Альпіністським Базам за останій рік'
+                                text: 'Прибуток по Альпіністським Базам за поточний рік'
                             }
                         }
                     });
@@ -76,16 +292,15 @@
                                 {
                                     label: "Грузія (грн.)",
                                     backgroundColor: "#2ecc71",
-                                    data: [1000, 500, 800, 700]
+                                     data: [@sum2_1[0, 0], @sum2_1[1, 0], @sum2_1[2, 0], @sum2_1[3, 0]]
                                 }, {
                                     label: "Росія (грн.)",
                                     backgroundColor: "#f1c40f",
-                                    data: [1000, 3000, 1000, 1500]
-                                }
-                                , {
+                                    data: [@sum2_1[0, 1], @sum2_1[1, 1], @sum2_1[2, 1], @sum2_1[3, 1]]
+                                }, {
                                     label: "Киргизстан (грн.)",
                                     backgroundColor: "#e74c3c",
-                                    data: [900, 1600, 1000, 2000]
+                                    data: [@sum2_1[0, 2], @sum2_1[1, 2], @sum2_1[2, 2], @sum2_1[3, 2]]
                                 }
                             ]
                         },
@@ -119,11 +334,11 @@
                                 {
                                     label: "Проживання (грн.)",
                                     backgroundColor: "#2ecc71",
-                                    data: [1000, 1500, 2500]
+                                    data: [@sum2_2[0, 0], @sum2_2[1, 0], @sum2_2[2, 0]]
                                 }, {
                                     label: "Харчування (грн.)",
-                                    backgroundColor: "#f1c40f",
-                                    data: [2000, 5000, 3000]
+                                    backgroundColor: "#e74c3c",
+                                    data: [@sum2_2[0, 1], @sum2_2[1, 1], @sum2_2[2, 1]]
                                 }
                             ]
                         },
