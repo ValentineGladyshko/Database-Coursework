@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Дата повернення Альпіністів";
+}
+
+<h2>Дата повернення Альпіністів</h2>
+
+<br />
+<h4 class="my-th">Інформація щодо Альпіністів, які зараз знаходяться на маршутах та дата їх повернення:</h4>
+@{
+    DateTime DateStart = DateTime.Today;
+
+    var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+Initial Catalog = Coursework; Integrated Security = True");
+    var queryString = "SELECT" +
+        "	[FirstName]," +
+        "	[LastName]," +
+        "	[Name]," +
+        "	[DateEnd]" +
+        "FROM [Routes] AS [R]" +
+        "JOIN [Walks] AS [W]" +
+        "	ON [W].[RouteID] = [R].[RouteID]" +
+        "JOIN [Alpinists] AS [A]" +
+        "	ON [A].[AlpinistID] = [W].[AlpinistID]" +
+        "WHERE ('" + DateStart.ToString("yyyy - MM - dd") +
+        "' BETWEEN [DateStart] AND [DateEnd])";
+
+    connection.Open();
+    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+    List<Object[]>
+    list = new List<Object[]>();
+    while (reader.Read())
+    {
+        Object[] values = new Object[reader.FieldCount];
+        reader.GetValues(values);
+        list.Add(values);
+    }
+    connection.Close();
+    <br />
+    <table class="table">
+        <tbody>
+            <tr>
+                <th class="my-th">Ім'я</th>
+                <th class="my-th">Прізвище</th>
+                <th class="my-th">Маршут</th>
+                <th class="my-th">Дата повернення</th>
+            </tr>
+            @{
+                foreach (Object[] element in list)
+                {
+                    <tr>
+                        <th>@element[0]</th>
+                        <th>@element[1]</th>
+                        <th>@element[2]</th>
+                        <th>@element[3]</th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+

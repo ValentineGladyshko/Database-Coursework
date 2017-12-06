@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Рятувальна Служба";
+}
+
+<h2>Рятувальна Служба</h2>
+
+<br />
+<h4 class="my-th">Поточний стан Маршутів:</h4>
+
+@{
+    var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+        Initial Catalog = Coursework; Integrated Security = True");
+    var queryString = "SELECT " +
+        "	[Name], " +
+        "	[Country], " +
+        "	[State] " +
+        "FROM [Routes] AS [R] " +
+        "JOIN [RouteStates] AS [RS] " +
+        "	ON [R].[RouteID] = [RS].[RouteID] " +
+        "JOIN [AlpinistBases] AS [AB] " +
+        "	ON [R].[AlpinistBaseID] = [AB].[AlpinistBaseID] " +
+        "WHERE ([DateEnd] IS NULL)";
+
+    connection.Open();
+    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+    List<Object[]>
+    list = new List<Object[]>();
+    while (reader.Read())
+    {
+        Object[] values = new Object[reader.FieldCount];
+        reader.GetValues(values);
+        list.Add(values);
+    }
+    connection.Close();
+    <br />
+    <table class="table">
+        <tbody>
+            <tr>
+                <th class="my-th">Маршут</th>
+                <th class="my-th">Країна</th>
+                <th class="my-th">Стан маршуту</th>
+            </tr>
+            @{
+                foreach (Object[] element in list)
+                {
+                    <tr>
+                        <th>@element[0]</th>
+                        <th>@element[1]</th>
+                        <th>@element[2]</th>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

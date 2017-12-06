@@ -151,6 +151,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountingController.cs" />
+    <Compile Include="Controllers\AdministratingController.cs" />
     <Compile Include="Controllers\AlpinistBasesController.cs" />
     <Compile Include="Controllers\AlpinistsController.cs" />
     <Compile Include="Controllers\AlpinistsListsController.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Controllers\HouseOrdersController.cs" />
     <Compile Include="Controllers\HousesController.cs" />
     <Compile Include="Controllers\HouseTypesController.cs" />
+    <Compile Include="Controllers\RescueServiceController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\RouteStatesController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
@@ -288,6 +290,9 @@
     <Content Include="Views\Statistics\Index.cshtml" />
     <Content Include="Views\Accounting\Report2.cshtml" />
     <Content Include="Views\Accounting\Report3.cshtml" />
+    <Content Include="Views\RescueService\Index.cshtml" />
+    <Content Include="Views\RescueService\Information.cshtml" />
+    <Content Include="Views\Administrating\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,7 +12,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#MyNavbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -22,12 +22,43 @@
                         Домашня Сторінка
                </a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse" id="MyNavbar">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Статистика", "Index", "Statistics")</li>
-                    <li>@Html.ActionLink("Бухгалтерський Облік", "Index", "Accounting")</li>
-                    <li>@Html.ActionLink("Рятувальна Служба", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Адміністрування", "Contact", "Home")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="~/Statistics/Index">
+                            Статистика
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/Statistics/Index">Загальний прибуток</a></li>
+                            <li><a href="~/Statistics/HouseProfit">Проживання</a></li>
+                            <li><a href="~/Statistics/FoodProfit">Харчування</a></li>
+                            <li><a href="~/Statistics/BaseProfit">Альпіністські Бази</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="~/Accounting/Index">
+                            Бухгалтерський облік
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/Accounting/Index">Загальна інформація</a></li>
+                            <li><a href="~/Accounting/Report1">Замовлення Альпіністів</a></li>
+                            <li><a href="~/Accounting/Report2">Прибуток по Альпіністам</a></li>
+                            <li><a href="~/Accounting/Report3">Прибуток по Типам Послуг</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="~/RescueService/Index">
+                            Рятувальна Служба
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/RescueService/Index">Поточний стан Маршутів</a></li>
+                            <li><a href="~/RescueService/Information">Дата повернення Альпіністів</a></li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Адміністрування", "Index", "Administrating")</li>
                     <li>@Html.ActionLink("Про Проект", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакти", "Contact", "Home")</li>
                 </ul>
