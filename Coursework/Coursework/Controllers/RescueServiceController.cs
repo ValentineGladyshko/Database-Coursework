@@ -18,5 +18,10 @@ namespace Coursework.Controllers
         {
             return View();
         }
+
+        public ActionResult RoutesStates()
+        {
+            return View();
+        }
     }
 }

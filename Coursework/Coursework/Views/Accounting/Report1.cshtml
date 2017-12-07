@@ -62,53 +62,51 @@
     if (IsPost)
     {
         var queryString = "SELECT " +
-    "[FirstName], " +
-    "[LastName], " +
-    "[DateStart], " +
-    "[DateEnd], " +
-    "[HT].[Name], " +
-    "[Price]*(DateDiff(DD,[DateStart],[DateEnd])+1) AS [Price] " +
-    "FROM [HouseOrders] AS [HO] " +
-    "JOIN [Alpinists] AS [A] " +
-    "ON [A].[AlpinistID] = [HO].[AlpinistID] " +
-    "JOIN [Houses] AS [H] " +
-    "ON [HO].[HouseID] = [H].[HouseID] " +
-    "JOIN [HouseTypes] AS [HT] " +
-    "ON [H].[HouseTypeID] = [HT].[HouseTypeID] " +
-    "WHERE ( [DateStart] BETWEEN '" +
-    Model.DateStart.ToString("yyyy-MM-dd") +
-    "' AND '" +
-    Model.DateEnd.ToString("yyyy-MM-dd") +
-    "') AND ([DateEnd] BETWEEN '" +
-    Model.DateStart.ToString("yyyy-MM-dd") +
-    "' AND '" +
-    Model.DateEnd.ToString("yyyy-MM-dd") +
-    "') " +
-    "UNION " +
-    "SELECT" +
-    "[FirstName], " +
-    "[LastName], " +
-    "[Date] AS [DateStart], " +
-    "null AS [DateEnd], " +
-    "[Name], " +
-    "[Price] " +
-    "FROM [FoodOrders] AS [FO] " +
-    "JOIN [Alpinists] AS [A] ON [A].[AlpinistID] = [FO].[AlpinistID] " +
-    "JOIN [FoodTypes] AS [FT] " +
-    "ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
-    "WHERE ([Date] BETWEEN '" +
-    Model.DateStart.ToString("yyyy-MM-dd") +
-    "' AND '" +
-    Model.DateEnd.ToString("yyyy-MM-dd") +
-    "')ORDER BY [DateStart]";
+            "[FirstName], " +
+            "[LastName], " +
+            "[DateStart], " +
+            "[DateEnd], " +
+            "[HT].[Name], " +
+            "[Price]*(DateDiff(DD,[DateStart],[DateEnd])+1) AS [Price] " +
+            "FROM [HouseOrders] AS [HO] " +
+            "JOIN [Alpinists] AS [A] " +
+            "ON [A].[AlpinistID] = [HO].[AlpinistID] " +
+            "JOIN [Houses] AS [H] " +
+            "ON [HO].[HouseID] = [H].[HouseID] " +
+            "JOIN [HouseTypes] AS [HT] " +
+            "ON [H].[HouseTypeID] = [HT].[HouseTypeID] " +
+            "WHERE ( [DateStart] BETWEEN '" +
+            Model.DateStart.ToString("yyyy-MM-dd") +
+            "' AND '" +
+            Model.DateEnd.ToString("yyyy-MM-dd") +
+            "') AND ([DateEnd] BETWEEN '" +
+            Model.DateStart.ToString("yyyy-MM-dd") +
+            "' AND '" +
+            Model.DateEnd.ToString("yyyy-MM-dd") +
+            "') " +
+            "UNION " +
+            "SELECT" +
+            "[FirstName], " +
+            "[LastName], " +
+            "[Date] AS [DateStart], " +
+            "null AS [DateEnd], " +
+            "[Name], " +
+            "[Price] " +
+            "FROM [FoodOrders] AS [FO] " +
+            "JOIN [Alpinists] AS [A] ON [A].[AlpinistID] = [FO].[AlpinistID] " +
+            "JOIN [FoodTypes] AS [FT] " +
+            "ON [FO].[FoodTypeID] = [FT].[FoodTypeID] " +
+            "WHERE ([Date] BETWEEN '" +
+            Model.DateStart.ToString("yyyy-MM-dd") +
+            "' AND '" +
+            Model.DateEnd.ToString("yyyy-MM-dd") +
+            "')ORDER BY [DateStart]";
         var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS; Initial Catalog = Coursework; Integrated Security = True");
         connection.Open();
         System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
         System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
-        List<Object[]>
-    list = new List<Object[]>
-        ();
+        List<Object[]> list = new List<Object[]>();
         while (reader.Read())
         {
             Object[] values = new Object[reader.FieldCount];
