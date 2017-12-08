@@ -15,11 +15,8 @@ namespace Coursework.Models
 
         public int FoodTypeID { get; set; }
 
-        [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
-
-        public virtual Alpinists Alpinists { get; set; }
-
-        public virtual FoodTypes FoodTypes { get; set; }
     }
 }

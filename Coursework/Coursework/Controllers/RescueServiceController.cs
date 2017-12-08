@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Coursework.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,20 +9,25 @@ namespace Coursework.Controllers
 {
     public class RescueServiceController : Controller
     {
-        // GET: RescueService
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         public ActionResult Information()
         {
             return View();
         }
 
-        public ActionResult RoutesStates()
+        public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(RouteState RouteState)
+        {
+            if (ModelState.IsValid)
+            {
+                return View(RouteState);
+            }
+
+            return View(RouteState);
         }
     }
 }

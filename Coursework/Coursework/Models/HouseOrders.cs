@@ -15,14 +15,12 @@ namespace Coursework.Models
 
         public int HouseID { get; set; }
 
-        [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateStart { get; set; }
 
-        [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateEnd { get; set; }
-
-        public virtual Alpinists Alpinists { get; set; }
-
-        public virtual Houses Houses { get; set; }
     }
 }

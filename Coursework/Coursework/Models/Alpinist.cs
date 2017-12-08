@@ -6,17 +6,19 @@ namespace Coursework.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("AlpinistsList")]
-    public partial class AlpinistsList
+    public partial class Alpinist
     {
-        public int AlpinistsListID { get; set; }
-
-        public int AlpinistID { get; set; }
-
         public int AlpinistBaseID { get; set; }
 
-        public virtual AlpinistBases AlpinistBases { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string FirstName { get; set; }
 
-        public virtual Alpinists Alpinists { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string LastName { get; set; }
+
+        [Phone]
+        public string Phone { get; set; }
     }
 }

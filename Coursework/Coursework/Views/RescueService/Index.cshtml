@@ -1,5 +1,11 @@
-﻿@{
+﻿@model Coursework.Models.RouteState
+@{
     ViewBag.Title = "Рятувальна Служба";
+    string[] States = new string[] { "Very Bad", "Bad", "Not Good", "Not Bad", "Good", "Excellent" };
+    SelectList list1 = new SelectList(States);
+    var queryString = "";
+    var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+Initial Catalog = Coursework; Integrated Security = True");
 }
 
 <h2>Рятувальна Служба</h2>
@@ -8,9 +14,7 @@
 <h4 class="my-th">Поточний стан Маршутів:</h4>
 
 @{
-    var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
-        Initial Catalog = Coursework; Integrated Security = True");
-    var queryString = "SELECT " +
+    string queryString1 = "SELECT " +
         "	[Name], " +
         "	[Country], " +
         "	[State] " +
@@ -19,38 +23,127 @@
         "	ON [R].[RouteID] = [RS].[RouteID] " +
         "JOIN [AlpinistBases] AS [AB] " +
         "	ON [R].[AlpinistBaseID] = [AB].[AlpinistBaseID] " +
-        "WHERE ([DateEnd] IS NULL)";
-
-    connection.Open();
-    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
-    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
-    List<Object[]>
-    list = new List<Object[]>();
-    while (reader.Read())
+        "WHERE ([DateEnd] IS NULL)" +
+        "ORDER BY [Name]";
+    if (IsPost)
     {
-        Object[] values = new Object[reader.FieldCount];
-        reader.GetValues(values);
-        list.Add(values);
+        queryString = "UPDATE[RouteStates] " +
+            "SET [DateEnd] = GETDATE() " +
+            "WHERE ([RouteID] = " +
+            @Model.Route + ") AND ([DateEnd] IS NULL) " +
+            "INSERT INTO [RouteStates] ([State], [RouteID], [DateStart], [DateEnd]) " +
+            "VALUES " +
+            "	('" + @Model.State +
+            "', " + @Model.Route + ", GETDATE(), NULL) ";
+
+        connection.Open();
+        System.Data.SqlClient.SqlCommand command1 = new System.Data.SqlClient.SqlCommand(queryString, connection);
+        command1.ExecuteNonQuery();
+        connection.Close();
     }
-    connection.Close();
-    <br />
-    <table class="table">
-        <tbody>
-            <tr>
-                <th class="my-th">Маршут</th>
-                <th class="my-th">Країна</th>
-                <th class="my-th">Стан маршуту</th>
-            </tr>
-            @{
-                foreach (Object[] element in list)
-                {
-                    <tr>
-                        <th>@element[0]</th>
-                        <th>@element[1]</th>
-                        <th>@element[2]</th>
-                    </tr>
+    if (queryString1 != "")
+    {
+        connection.Open();
+        System.Data.SqlClient.SqlCommand command1 = new System.Data.SqlClient.SqlCommand(queryString1, connection);
+        System.Data.SqlClient.SqlDataReader reader1 = command1.ExecuteReader();
+        List<Object[]> list3 = new List<Object[]>();
+        while (reader1.Read())
+        {
+            Object[] values = new Object[reader1.FieldCount];
+            reader1.GetValues(values);
+            list3.Add(values);
+        }
+        connection.Close();
+        <br />
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th class="my-th">Маршут</th>
+                    <th class="my-th">Країна</th>
+                    <th class="my-th">Стан маршуту</th>
+                </tr>
+                @{
+                    foreach (Object[] element in list3)
+                    {
+                        <tr>
+                            <th>@element[0]</th>
+                            <th>@element[1]</th>
+                            <th>@element[2]</th>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
+}
+
+<hr />
+<h4 class="my-th">Зміна стану маршуту:</h4>
+
+<form action="" method="post" id="MyForm">
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Route">Маршут</label>
+            <div class="col-md-10">
+
+
+                @{
+                    queryString = "SELECT " +
+                        "[RouteID]," +
+                        "[Name]" +
+                        "FROM [Routes] AS [R] " +
+                        "ORDER BY [Name]";
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+                    List<Coursework.Models.Route> list = new List<Coursework.Models.Route>();
+                    while (reader.Read())
+                    {
+                        Object[] values = new Object[reader.FieldCount];
+                        reader.GetValues(values);
+                        Coursework.Models.Route route = new Coursework.Models.Route();
+                        route.RouteID = Convert.ToInt32(values[0]);
+                        route.Name = Convert.ToString(values[1]);
+                        list.Add(route);
+                    }
+                    connection.Close();
+
+                    SelectList list2 = new SelectList(list, "RouteId", "Name");
+
+                    @Html.DropDownListFor(model => Model.Route, list2, htmlAttributes: new { @class = "form-control" })
+                }
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label col-md-2" for="State">Стан</label>
+
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => Model.State, list1, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-default">Змінити стан маршуту</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@{
+    if (IsPost)
+    {
+        <br /> 
+        <div class="alert alert-success">
+            <div class="my-p">
+                <strong>Успіх!</strong> Стан маршуту змінено
+            </div>
+        </div>
+        <br />
+        <br />
+    }
 }
