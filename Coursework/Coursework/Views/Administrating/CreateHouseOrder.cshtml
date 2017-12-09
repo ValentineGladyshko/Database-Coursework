@@ -1,58 +1,94 @@
-﻿@model Coursework.Models.HouseOrders
+﻿@model Coursework.Models.HouseOrder
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Створення Замовлення Проживання";
 }
 
-<h2>Create</h2>
+<h2>Створення</h2>
 
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>HouseOrders</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.AlpinistID, "AlpinistID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("AlpinistID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AlpinistID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HouseID, "HouseID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("HouseID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.HouseID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateStart, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateStart, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+<div class="form-horizontal">
+    <h4>Замовлення Проживання</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="control-label col-md-2">Альпініст</label>
+        <div class="col-md-10">
+            @Model.AlpinistID
         </div>
     </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Харчування</label>
+        <div class="col-md-10">
+
+            @{
+                var queryString = "SELECT " +
+                    "	[HouseID]," +
+                    "	[H].[Name]," +
+                    "	[HT].[Name]" +
+                    "	FROM [Coursework].[dbo].[Houses] AS [H]" +
+                    "JOIN [HouseTypes] AS [HT]" +
+                    "	ON [H].[HouseTypeID] = [HT].[HouseTypeID]" +
+                    "WHERE ([AlpinistBaseID] IN " +
+                    "	(" +
+                    "	SELECT [AlpinistBaseID] FROM [AlpinistsList]" +
+                    "	WHERE [AlpinistID] = " + Model.AlpinistID +
+                    "	)" +
+                    ")" +
+                    "ORDER BY [H].[Name]";
+                var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+                            Initial Catalog = Coursework; Integrated Security = True");
+                connection.Open();
+                System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+                System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+                List<Coursework.Models.Route> list = new List<Coursework.Models.Route>();
+                while (reader.Read())
+                {
+                    Object[] values = new Object[reader.FieldCount];
+                    reader.GetValues(values);
+                    Coursework.Models.Route route = new Coursework.Models.Route();
+                    route.RouteID = Convert.ToInt32(values[0]);
+                    route.Name = Convert.ToString(values[1]) + ": " + Convert.ToString(values[2]) + "₴";
+                    list.Add(route);
+                }
+                connection.Close();
+
+                SelectList list2 = new SelectList(list, "RouteID", "Name");
+
+                @Html.DropDownListFor(model => Model.HouseID, list2, htmlAttributes: new { @class = "form-control" })
+            }
+
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DateStart, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DateStart, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div>

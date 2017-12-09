@@ -6,7 +6,7 @@ namespace Coursework.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class FoodOrders
+    public partial class FoodOrder
     {
         [Key]
         public int FoodOrderID { get; set; }

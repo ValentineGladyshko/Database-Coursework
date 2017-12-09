@@ -10,7 +10,7 @@ namespace Coursework.Controllers
 {
     public class AdministratingController : Controller
     {
-        // GET: Administrating
+        private int alpinist1;
         public ActionResult Index()
         {
             return View();
@@ -23,7 +23,7 @@ namespace Coursework.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateAlpinist([Bind(Include = "FirstName,LastName,Phone")] Alpinist alpinist)
+        public ActionResult CreateAlpinist([Bind(Include = "AlpinistBaseID,FirstName,LastName,Phone,")] Alpinist alpinist)
         {
             if (ModelState.IsValid)
             {
@@ -49,5 +49,53 @@ namespace Coursework.Controllers
 
             return View(alpinist);
         }
+
+        public ActionResult CreateFoodOrder()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFoodOrder([Bind(Include = "AlpinistID,FoodTypeID,Date")] FoodOrder foodOrder)
+        {
+            if (ModelState.IsValid)
+            {
+                string queryString = "INSERT INTO [FoodOrders] ([AlpinistID], [FoodTypeID], [Date])" +
+                    "VALUES" +
+                    "	(" + foodOrder.AlpinistID + "," + foodOrder.FoodTypeID + 
+                    ", '" + foodOrder.Date.ToString("yyyy-MM-dd") + "')";
+                SqlConnection connection = new SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+                    Initial Catalog = Coursework; Integrated Security = True");
+                connection.Open();
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                return View(foodOrder);
+            }
+
+            return View(foodOrder);
+        }
+
+        public ActionResult ChooseAlpinistHouse()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChooseAlpinistHouse(int alpinist)
+        {
+            alpinist1 = alpinist;
+            return RedirectToAction("CreateHouseOrder");
+        }
+
+        public ActionResult CreateHouseOrder()
+        {
+            HouseOrder houseOrder = new HouseOrder();
+            houseOrder.AlpinistID = alpinist1;
+            return View();
+        }
+
     }
 }

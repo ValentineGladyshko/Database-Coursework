@@ -160,8 +160,8 @@
     </Compile>
     <Compile Include="Models\Alpinist.cs" />
     <Compile Include="Models\Date.cs" />
-    <Compile Include="Models\FoodOrders.cs" />
-    <Compile Include="Models\HouseOrders.cs" />
+    <Compile Include="Models\FoodOrder.cs" />
+    <Compile Include="Models\HouseOrder.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\RouteState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -224,6 +224,7 @@
     <Content Include="Views\Administrating\CreateFoodOrder.cshtml" />
     <Content Include="Views\Administrating\CreateHouseOrder.cshtml" />
     <Content Include="Views\Administrating\CreateWalk.cshtml" />
+    <Content Include="Views\Administrating\ChooseAlpinistHouse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
