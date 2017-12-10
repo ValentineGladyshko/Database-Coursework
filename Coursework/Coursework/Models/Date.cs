@@ -10,10 +10,12 @@ namespace Coursework.Models
     public partial class Date
     {
         [DataType(DataType.Date)]
+        [Display(Name = "Початкова дата")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateStart { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Кінцева дата")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateEnd { get; set; }
     }

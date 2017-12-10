@@ -4,102 +4,123 @@
     ViewBag.Title = "Створення Замовлення Харчування";
 }
 
-<h2>Створення</h2>
-
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Замовлення Харчування</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        <label class="control-label col-md-2">Альпініст</label>
-        <div class="col-md-10">
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-3 sidenav hidden-xs hidden-sm">
+                <h2>Адміністрування</h2>
+                <ul class="nav nav-pills nav-stacked">
+                    <li>@Html.ActionLink("Загальна інформація", "Index", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Альпініста", "CreateAlpinist", "Administrating")</li>
+                    <li class="active">@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</li>
+                </ul>
+            </div>
+            <div class="col-sm-9">
+                <div class="form-horizontal">
+                    <h2>Створення Замовлення Харчування</h2>
+                    <br />
+                    <h4>Вибір Альпініста, Типу Харчування</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Альпініст</label>
+                        <div class="col-md-10">
 
-            @{
-                var queryString = "SELECT " +
-                    "[AlpinistID]," +
-                    "[FirstName]," +
-                    "[LastName]" +
-                    "FROM [Alpinists] AS [A] " +
-                    "ORDER BY [FirstName], [LastName]";
-                var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
-                            Initial Catalog = Coursework; Integrated Security = True");
-                connection.Open();
-                System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
-                System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
-                List<Coursework.Models.Route> list = new List<Coursework.Models.Route>();
-                while (reader.Read())
-                {
-                    Object[] values = new Object[reader.FieldCount];
-                    reader.GetValues(values);
-                    Coursework.Models.Route route = new Coursework.Models.Route();
-                    route.RouteID = Convert.ToInt32(values[0]);
-                    route.Name = Convert.ToString(values[1]) + " " + Convert.ToString(values[2]);
-                    list.Add(route);
-                }
-                connection.Close();
+                            @{
+                                var queryString = "SELECT " +
+                                    "[AlpinistID]," +
+                                    "[FirstName]," +
+                                    "[LastName]" +
+                                    "FROM [Alpinists] AS [A] " +
+                                    "ORDER BY [FirstName], [LastName]";
+                                var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+                                                                                Initial Catalog = Coursework; Integrated Security = True");
+                                connection.Open();
+                                System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+                                System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+                                List<Coursework.Models.Data> list = new List<Coursework.Models.Data>();
+                                while (reader.Read())
+                                {
+                                    Object[] values = new Object[reader.FieldCount];
+                                    reader.GetValues(values);
+                                    Coursework.Models.Data data = new Coursework.Models.Data();
+                                    data.DataID = Convert.ToInt32(values[0]);
+                                    data.DataString = Convert.ToString(values[1]) + " " + Convert.ToString(values[2]);
+                                    list.Add(data);
+                                }
+                                connection.Close();
 
-                SelectList list2 = new SelectList(list, "RouteID", "Name");
+                                SelectList list2 = new SelectList(list, "DataID", "DataString");
 
-                @Html.DropDownListFor(model => Model.AlpinistID, list2, htmlAttributes: new { @class = "form-control" })
-            }
+                                @Html.DropDownListFor(model => Model.AlpinistID, list2, htmlAttributes: new { @class = "form-control" })
+                            }
 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Харчування</label>
+                        <div class="col-md-10">
+
+                            @{
+                                queryString = "SELECT " +
+                                    "[FoodTypeID]," +
+                                    "[Name]," +
+                                    "[Price]" +
+                                    "FROM [FoodTypes] AS [F] " +
+                                    "ORDER BY [Name]";
+
+                                connection.Open();
+                                command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+                                reader = command.ExecuteReader();
+                                list = new List<Coursework.Models.Data>();
+                                while (reader.Read())
+                                {
+                                    Object[] values = new Object[reader.FieldCount];
+                                    reader.GetValues(values);
+                                    Coursework.Models.Data data = new Coursework.Models.Data();
+                                    data.DataID = Convert.ToInt32(values[0]);
+                                    data.DataString = Convert.ToString(values[1]) + ": " + Convert.ToString(values[2]) + "₴";
+                                    list.Add(data);
+                                }
+                                connection.Close();
+
+                                list2 = new SelectList(list, "DataID", "DataString");
+
+                                @Html.DropDownListFor(model => Model.FoodTypeID, list2, htmlAttributes: new { @class = "form-control" })
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Створити" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+}
 
-    <div class="form-group">
-        <label class="control-label col-md-2">Харчування</label>
-        <div class="col-md-10">
-
-            @{
-                queryString = "SELECT " +
-                    "[FoodTypeID]," +
-                    "[Name]," +
-                    "[Price]" +
-                    "FROM [FoodTypes] AS [F] " +
-                    "ORDER BY [Name]";
-
-                connection.Open();
-                command = new System.Data.SqlClient.SqlCommand(queryString, connection);
-                reader = command.ExecuteReader();
-                list = new List<Coursework.Models.Route>();
-                while (reader.Read())
-                {
-                    Object[] values = new Object[reader.FieldCount];
-                    reader.GetValues(values);
-                    Coursework.Models.Route route = new Coursework.Models.Route();
-                    route.RouteID = Convert.ToInt32(values[0]);
-                    route.Name = Convert.ToString(values[1]) + ": " + Convert.ToString(values[2]) + "₴";
-                    list.Add(route);
-                }
-                connection.Close();
-
-                list2 = new SelectList(list, "RouteID", "Name");
-
-                @Html.DropDownListFor(model => Model.FoodTypeID, list2, htmlAttributes: new { @class = "form-control" })
-            }
-
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
+@{
+    if (IsPost)
+    {
+        @Html.Action("Success");
+    }
 }
 
 @section Scripts {

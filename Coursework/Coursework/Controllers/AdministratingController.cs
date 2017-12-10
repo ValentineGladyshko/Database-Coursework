@@ -10,10 +10,14 @@ namespace Coursework.Controllers
 {
     public class AdministratingController : Controller
     {
-        private int alpinist1;
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Success()
+        {
+            return PartialView();
         }
 
         public ActionResult CreateAlpinist()
@@ -84,18 +88,83 @@ namespace Coursework.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChooseAlpinistHouse(int alpinist)
+        public RedirectToRouteResult ChooseAlpinistHouse(MyInt myInt)
         {
-            alpinist1 = alpinist;
-            return RedirectToAction("CreateHouseOrder");
+            FoodOrder houseOrder = new FoodOrder();
+            houseOrder.AlpinistID = myInt.ID;
+            return RedirectToAction("CreateHouseOrder", houseOrder);
         }
 
-        public ActionResult CreateHouseOrder()
+        public ActionResult CreateHouseOrder(FoodOrder houseOrder)
         {
-            HouseOrder houseOrder = new HouseOrder();
-            houseOrder.AlpinistID = alpinist1;
+            HouseOrder houseOrder1 = new HouseOrder();
+            houseOrder1.AlpinistID = houseOrder.AlpinistID;
+            return View(houseOrder1);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateHouseOrder([Bind(Include = "AlpinistID,HouseID,DateStart,DateEnd")] HouseOrder houseOrder)
+        {
+            if (ModelState.IsValid)
+            {
+                string queryString = "INSERT INTO [HouseOrders] ([AlpinistID], [HouseID], [DateStart], [DateEnd])" +
+                    "VALUES" +
+                    "	(" + houseOrder.AlpinistID + "," + houseOrder.HouseID +
+                    ", '" + houseOrder.DateStart.ToString("yyyy-MM-dd") + "', '" + houseOrder.DateEnd.ToString("yyyy-MM-dd") + "')";
+                SqlConnection connection = new SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+                    Initial Catalog = Coursework; Integrated Security = True");
+                connection.Open();
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                return View(houseOrder);
+            }
+
+            return View(houseOrder);
+        }
+
+        public ActionResult ChooseAlpinistWalk()
+        {
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public RedirectToRouteResult ChooseAlpinistWalk(MyInt myInt)
+        {
+            FoodOrder walk = new FoodOrder();
+            walk.AlpinistID = myInt.ID;
+            return RedirectToAction("CreateWalk", walk);
+        }
+
+        public ActionResult CreateWalk(FoodOrder walk)
+        {
+            Walk walk1 = new Walk();
+            walk1.AlpinistID = walk.AlpinistID;
+            return View(walk1);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateWalk([Bind(Include = "AlpinistID,RouteID,DateStart,DateEnd")] Walk walk)
+        {
+            if (ModelState.IsValid)
+            {
+                string queryString = "INSERT INTO [Walks] ([AlpinistID], [RouteID], [DateStart], [DateEnd])" +
+                    "VALUES" +
+                    "	(" + walk.AlpinistID + "," + walk.RouteID +
+                    ", '" + walk.DateStart.ToString("yyyy-MM-dd") + "', '" + walk.DateEnd.ToString("yyyy-MM-dd") + "')";
+                SqlConnection connection = new SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+                    Initial Catalog = Coursework; Integrated Security = True");
+                connection.Open();
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                return View(walk);
+            }
+
+            return View(walk);
+        }
     }
 }

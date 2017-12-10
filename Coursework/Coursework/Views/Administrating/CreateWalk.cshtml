@@ -1,63 +1,130 @@
-﻿@model Coursework.Models.Walks
+﻿@model Coursework.Models.Walk
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Створення Прогулянки";
 }
 
-<h2>Create</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Walks</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.AlpinistID, "AlpinistID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("AlpinistID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AlpinistID, "", new { @class = "text-danger" })
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-3 sidenav hidden-xs hidden-sm">
+                <h2>Адміністрування</h2>
+                <ul class="nav nav-pills nav-stacked">
+                    <li>@Html.ActionLink("Загальна інформація", "Index", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Альпініста", "CreateAlpinist", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</li>
+                    <li class="active"><a href="#">Створення Прогулянки</a></li>
+                </ul>
             </div>
-        </div>
+            <div class="col-sm-9">
+                <div class="form-horizontal">
+                    <h2>Створення Прогулянки</h2>
+                    <br />
+                    <h4>Вибір Маршуту</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Альпініст</label>
+                        <div class="col-md-4">
+                            @{
+                                var queryString = "SELECT " +
+                                    "	[FirstName]," +
+                                    "	[LastName]" +
+                                    "FROM [Alpinists] AS [A]" +
+                                    "WHERE ([AlpinistID] = " + Model.AlpinistID + ")";
+                                var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+                                                                                    Initial Catalog = Coursework; Integrated Security = True");
+                                System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+                                connection.Open();
+                                System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+                                reader.Read();
+                                Object[] values1 = new Object[reader.FieldCount];
+                                reader.GetValues(values1);
+                                var alpinist = Convert.ToString(values1[0]) + " " + Convert.ToString(values1[1]);
+                                connection.Close();
+                            }
+                            <div class="form-control">
+                                @alpinist
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RouteID, "RouteID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("RouteID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.RouteID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Маршут</label>
+                        <div class="col-md-4">
+                            @{
+                                queryString = "SELECT " +
+                                    "	[RouteID]," +
+                                    "	[Name]" +
+                                    "FROM [Routes] AS [R]" +
+                                    "WHERE ([AlpinistBaseID] IN " +
+                                    "	(" +
+                                    "	SELECT [AlpinistBaseID] FROM [AlpinistsList]" +
+                                    "	WHERE [AlpinistID] = " + Model.AlpinistID +
+                                    "	)" +
+                                    ")" +
+                                    "ORDER BY [Name]";
+                                connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
+                                                                                Initial Catalog = Coursework; Integrated Security = True");
+                                connection.Open();
+                                command = new System.Data.SqlClient.SqlCommand(queryString, connection);
+                                reader = command.ExecuteReader();
+                                List<Coursework.Models.Data> list = new List<Coursework.Models.Data>();
+                                while (reader.Read())
+                                {
+                                    Object[] values = new Object[reader.FieldCount];
+                                    reader.GetValues(values);
+                                    Coursework.Models.Data data = new Coursework.Models.Data();
+                                    data.DataID = Convert.ToInt32(values[0]);
+                                    data.DataString = Convert.ToString(values[1]);
+                                    list.Add(data);
+                                }
+                                connection.Close();
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateStart, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateStart, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                SelectList list2 = new SelectList(list, "DataID", "DataString");
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                @Html.DropDownListFor(model => Model.RouteID, list2, htmlAttributes: new { @class = "form-control" })
+                            }
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateStart, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.DateStart, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.DateEnd, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Створити" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@{
+    if (IsPost)
+    {
+        @Html.Action("Success");
+    }
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

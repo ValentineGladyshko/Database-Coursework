@@ -97,19 +97,19 @@ Initial Catalog = Coursework; Integrated Security = True");
                     connection.Open();
                     System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
-                    List<Coursework.Models.Route> list = new List<Coursework.Models.Route>();
+                    List<Coursework.Models.Data> list = new List<Coursework.Models.Data>();
                     while (reader.Read())
                     {
                         Object[] values = new Object[reader.FieldCount];
                         reader.GetValues(values);
-                        Coursework.Models.Route route = new Coursework.Models.Route();
-                        route.RouteID = Convert.ToInt32(values[0]);
-                        route.Name = Convert.ToString(values[1]);
-                        list.Add(route);
+                        Coursework.Models.Data data = new Coursework.Models.Data();
+                        data.DataID = Convert.ToInt32(values[0]);
+                        data.DataString = Convert.ToString(values[1]);
+                        list.Add(data);
                     }
                     connection.Close();
 
-                    SelectList list2 = new SelectList(list, "RouteId", "Name");
+                    SelectList list2 = new SelectList(list, "DataID", "DataString");
 
                     @Html.DropDownListFor(model => Model.Route, list2, htmlAttributes: new { @class = "form-control" })
                 }
@@ -137,13 +137,13 @@ Initial Catalog = Coursework; Integrated Security = True");
 @{
     if (IsPost)
     {
-        <br /> 
-        <div class="alert alert-success">
+        <hr />
+
+        <div class="text-success" align="center">
             <div class="my-p">
-                <strong>Успіх!</strong> Стан маршуту змінено
+                <h2><strong>Успіх!</strong> Стан маршуту змінено</h2>
             </div>
         </div>
-        <br />
         <br />
     }
 }

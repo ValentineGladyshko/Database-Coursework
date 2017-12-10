@@ -16,6 +16,7 @@ namespace Coursework.Models
         public int FoodTypeID { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Дата")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
     }

@@ -3,16 +3,34 @@
     ViewBag.Title = "Адміністрування";
 }
 
-<h2>Адміністрування</h2>
-<br />
 <div class="container-fluid">
     <div class="row content">
-        <div class="col-sm-3">
+        <div class="col-sm-3 sidenav hidden-xs hidden-sm">
+            <h2>Адміністрування</h2>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active">@Html.ActionLink("Загальна інформація", "Index", "Administrating")</li>
+                <li>@Html.ActionLink("Створення Альпініста", "CreateAlpinist", "Administrating")</li>
+                <li>@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</li>
+                <li>@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</li>
+                <li>@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</li>
+            </ul>
         </div>
-        <div class="col-sm-6">
-            <h4>В найближчому часі тут з'являться інструменти для додавання Альпіністів та замовлень відвідувачів Альпіністської бази.</h4>
-        </div>
-        <div class="col-sm-3">
+        <div class="col-sm-9">
+            <br />
+            <h4>
+                За допомогою "Адміністрування" ви можете додавати нових Альпіністів та реєструвати замовлення
+                та прогулянки відвідувачів Альпіністської бази.
+            </h4>
+            <h4>
+                Доступні Інструменти:
+            </h4>
+            <br />
+            <ul>
+                <li><p class="my-p">@Html.ActionLink("Створення Альпініста", "CreateAlpinist", "Administrating")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</p></li>
+            </ul>
         </div>
     </div>
 </div>

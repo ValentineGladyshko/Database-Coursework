@@ -6,14 +6,14 @@ namespace Coursework.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class HouseOrder
+    public partial class Walk
     {
         [Key]
-        public int HouseOrderID { get; set; }
+        public int WalkID { get; set; }
 
         public int AlpinistID { get; set; }
 
-        public int HouseID { get; set; }
+        public int RouteID { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Початкова дата")]
@@ -21,7 +21,7 @@ namespace Coursework.Models
         public DateTime DateStart { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Кінцева дата")]
+        [Display(Name = "Кінцева Дата")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = false)]
         public DateTime DateEnd { get; set; }
     }

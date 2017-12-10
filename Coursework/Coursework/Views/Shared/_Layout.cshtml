@@ -1,13 +1,29 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title – Альпіністська база</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <style>
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url(/Images/Base1.jpg);
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            z-index: -1;
+            background-size: cover;
+        }
+    </style>
 </head>
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -17,10 +33,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               <a class="my-navbar-brand" href="~/Home">
-                        <img src="~/Images/mountains.png" width="50" height="50" alt="">
-                        Домашня Сторінка
-               </a>
+                <a class="my-navbar-brand" href="~/Home">
+                    <img src="~/Images/mountains.png" width="50" height="50" alt="">
+                    Домашня Сторінка
+                </a>
             </div>
             <div class="navbar-collapse collapse" id="MyNavbar">
                 <ul class="nav navbar-nav">
@@ -65,7 +81,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="~/Administrating/Index">Загальна інформація</a></li>
-                            <li><a href="~/Administrating/Index">Дата повернення Альпіністів</a></li>
+                            <li><a href="~/Administrating/CreateAlpinist">Створення Альпініста</a></li>
+                            <li><a href="~/Administrating/CreateFoodOrder">Створення Замовлення Харчування</a></li>
+                            <li><a href="~/Administrating/ChooseAlpinistHouse">Створення Замовлення Проживання</a></li>
+                            <li><a href="~/Administrating/ChooseAlpinistWalk">Створення Прогулянки</a></li>
                         </ul>
                     </li>
                     <li>@Html.ActionLink("Про Проект", "About", "Home")</li>
@@ -75,7 +94,7 @@
         </div>
     </div>
     <div class="container body-content">
-            @RenderBody()
+        @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year – додаток ASP.NET</p>

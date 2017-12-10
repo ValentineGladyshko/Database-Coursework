@@ -5,9 +5,8 @@ using System.Web;
 
 namespace Coursework.Models
 {
-    public class Route
+    public partial class MyInt
     {
-        public int RouteID { get; set; }
-        public string Name { get; set; }
+        public int ID { get; set; }
     }
 }

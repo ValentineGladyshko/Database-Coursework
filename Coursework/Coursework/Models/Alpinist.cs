@@ -11,14 +11,17 @@ namespace Coursework.Models
         public int AlpinistBaseID { get; set; }
 
         [Required]
+        [Display(Name = "І'мя")]
         [StringLength(255)]
         public string FirstName { get; set; }
 
         [Required]
+        [Display(Name = "Прізвище")]
         [StringLength(255)]
         public string LastName { get; set; }
 
         [Phone]
+        [Display(Name = "Телефон")]
         public string Phone { get; set; }
     }
 }
