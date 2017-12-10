@@ -392,7 +392,11 @@ namespace Coursework.Controllers
                 table1.Columns.Add("AlpinistID", typeof(int));
                 table1.Columns.Add("FoodTypeID", typeof(int));
                 table1.Columns.Add("Date", typeof(DateTime));
-                
+                if (list.Count == 0)
+                {
+                    ViewBag.MyID = -1;
+                    return View(myInt);
+                }
                 for (int i = 0; i < myInt.ID; i++)
                 {
                     table1.Rows.Add(new object[]
@@ -493,7 +497,11 @@ namespace Coursework.Controllers
                     list1.Add(myAlp);
                 }
                 connection.Close();
-
+                if (list.Count == 0 || list1.Count == 0)
+                {
+                    ViewBag.MyID = -1;
+                    return View(myInt);
+                }
                 Random random = new Random();
 
                 DataTable table1 = new DataTable();
@@ -611,7 +619,11 @@ namespace Coursework.Controllers
                     list1.Add(myAlp);
                 }
                 connection.Close();
-
+                if (list.Count == 0 || list1.Count == 0)
+                {
+                    ViewBag.MyID = -1;
+                    return View(myInt);
+                }
                 Random random = new Random();
 
                 DataTable table1 = new DataTable();
