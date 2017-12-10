@@ -13,6 +13,18 @@
                 <li>@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</li>
                 <li>@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</li>
                 <li>@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="~/Administrating/Index">
+                        Генерування Даних
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="~/Administrating/GenerateAlpinists">Генерування Альпіністів</a></li>
+                        <li><a href="~/Administrating/GenerateFoodOrders">Генерування Замовлень Харчування</a></li>
+                        <li><a href="~/Administrating/GenerateHouseOrders">Генерування Замовлень Проживання</a></li>
+                        <li><a href="~/Administrating/GenerateWalks">Генерування Прогулянок</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="col-sm-9">
@@ -30,6 +42,10 @@
                 <li><p class="my-p">@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</p></li>
                 <li><p class="my-p">@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</p></li>
                 <li><p class="my-p">@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Генерування Альпіністів", "GenerateAlpinists", "Administrating")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Генерування Замовлень Харчування", "GenerateFoodOrders", "Administrating")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Генерування Замовлень Проживання", "GenerateHouseOrders", "Administrating")</p></li>
+                <li><p class="my-p">@Html.ActionLink("Генерування Прогулянок", "GenerateWalks", "Administrating")</p></li>
             </ul>
         </div>
     </div>

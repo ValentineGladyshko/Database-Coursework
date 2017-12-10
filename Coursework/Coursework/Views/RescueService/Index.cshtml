@@ -1,7 +1,7 @@
 ﻿@model Coursework.Models.RouteState
 @{
     ViewBag.Title = "Рятувальна Служба";
-    string[] States = new string[] { "Very Bad", "Bad", "Not Good", "Not Bad", "Good", "Excellent" };
+    string[] States = new string[] { "Жахливий", "Поганий", "Задовільний", "Хороший", "Відмінний" };
     SelectList list1 = new SelectList(States);
     var queryString = "";
     var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;

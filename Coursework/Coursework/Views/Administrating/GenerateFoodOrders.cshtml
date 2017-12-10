@@ -1,0 +1,77 @@
+﻿@model Coursework.Models.MyInt
+
+@{
+    ViewBag.Title = "Генерування Замовлень Харчування";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-3 sidenav hidden-xs hidden-sm">
+                <h2>Адміністрування</h2>
+                <ul class="nav nav-pills nav-stacked">
+                    <li>@Html.ActionLink("Загальна інформація", "Index", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Альпініста", "CreateAlpinist", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</li>
+                    <li class="dropdown active">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="~/Administrating/Index">
+                            Генерування Даних
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/Administrating/GenerateAlpinists">Генерування Альпіністів</a></li>
+                            <li><a href="~/Administrating/GenerateFoodOrders">Генерування Замовлень Харчування</a></li>
+                            <li><a href="~/Administrating/GenerateHouseOrders">Генерування Замовлень Проживання</a></li>
+                            <li><a href="~/Administrating/GenerateWalks">Генерування Прогулянок</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-9">
+                <div class="form-horizontal">
+                    <h2>Генерування Замовлень Харчування</h2>
+                    <br />
+                    <h4>Вибір кількості згенерованих замовлень</h4>
+                    <p class="my-p">
+                        Максимальна кількість: 100000
+                    </p>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Кількість</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Згенерувати" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@{
+    if (ViewBag.MyID == 1)
+    {
+        @Html.Action("Success");
+    }
+
+    if (ViewBag.MyID == -1)
+    {
+        @Html.Action("Error");
+    }
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

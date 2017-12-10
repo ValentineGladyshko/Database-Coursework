@@ -17,6 +17,18 @@
                     <li class="active">@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</li>
                     <li>@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</li>
                     <li>@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="~/Administrating/Index">
+                            Генерування Даних
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="~/Administrating/GenerateAlpinists">Генерування Альпіністів</a></li>
+                            <li><a href="~/Administrating/GenerateFoodOrders">Генерування Замовлень Харчування</a></li>
+                            <li><a href="~/Administrating/GenerateHouseOrders">Генерування Замовлень Проживання</a></li>
+                            <li><a href="~/Administrating/GenerateWalks">Генерування Прогулянок</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <div class="col-sm-9">
@@ -38,7 +50,7 @@
                                     "FROM [Alpinists] AS [A] " +
                                     "ORDER BY [FirstName], [LastName]";
                                 var connection = new System.Data.SqlClient.SqlConnection(@"Data Source = VALENTINE\SQLEXPRESS;
-                                                                                Initial Catalog = Coursework; Integrated Security = True");
+                                                                                                Initial Catalog = Coursework; Integrated Security = True");
                                 connection.Open();
                                 System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(queryString, connection);
                                 System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
@@ -117,7 +129,7 @@
 }
 
 @{
-    if (IsPost)
+    if (ViewBag.MyID)
     {
         @Html.Action("Success");
     }

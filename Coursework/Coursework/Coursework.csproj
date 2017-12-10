@@ -229,6 +229,11 @@
     <Content Include="Views\Administrating\ChooseAlpinistHouse.cshtml" />
     <Content Include="Views\Administrating\ChooseAlpinistWalk.cshtml" />
     <Content Include="Views\Administrating\Success.cshtml" />
+    <Content Include="Views\Administrating\GenerateAlpinists.cshtml" />
+    <Content Include="Views\Administrating\GenerateHouseOrders.cshtml" />
+    <Content Include="Views\Administrating\GenerateFoodOrders.cshtml" />
+    <Content Include="Views\Administrating\GenerateWalks.cshtml" />
+    <Content Include="Views\Administrating\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
