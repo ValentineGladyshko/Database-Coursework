@@ -62,9 +62,6 @@ html {
 
 body {
     margin: 0;
-    opacity: 0.5;
-    background-image: url("~/Images/Base.jpg");
-    background-repeat: no-repeat;
 }
 
 a:focus {
@@ -341,8 +338,8 @@ textarea {
 }
 
 a {
-  color: #428bca;
-  text-decoration: none;
+    color: #333333;
+    text-decoration: none;
 }
 
 a:hover,
