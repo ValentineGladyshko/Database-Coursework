@@ -1,7 +1,7 @@
 ﻿@model Coursework.Models.MyInt
 
 @{
-    ViewBag.Title = "Генерування Альпіністів";
+    ViewBag.Title = "Генерація Альпіністів";
 }
 
 @using (Html.BeginForm())
@@ -13,27 +13,27 @@
                 <h2>Адміністрування</h2>
                 <ul class="nav nav-pills nav-stacked">
                     <li>@Html.ActionLink("Загальна інформація", "Index", "Administrating")</li>
-                    <li>@Html.ActionLink("Створення Альпініста", "CreateAlpinist", "Administrating")</li>
+                    <li>@Html.ActionLink("Реєстрація Альпініста", "CreateAlpinist", "Administrating")</li>
                     <li>@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</li>
                     <li>@Html.ActionLink("Створення Замовлення Проживання", "ChooseAlpinistHouse", "Administrating")</li>
                     <li>@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</li>
                     <li class="dropdown active">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="~/Administrating/Index">
-                            Генерування Даних
+                            Генерація Даних
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="~/Administrating/GenerateAlpinists">Генерування Альпіністів</a></li>
-                            <li><a href="~/Administrating/GenerateFoodOrders">Генерування Замовлень Харчування</a></li>
-                            <li><a href="~/Administrating/GenerateHouseOrders">Генерування Замовлень Проживання</a></li>
-                            <li><a href="~/Administrating/GenerateWalks">Генерування Прогулянок</a></li>
+                            <li><a href="~/Administrating/GenerateAlpinists">Генерація Альпіністів</a></li>
+                            <li><a href="~/Administrating/GenerateFoodOrders">Генерація Замовлень Харчування</a></li>
+                            <li><a href="~/Administrating/GenerateHouseOrders">Генерація Замовлень Проживання</a></li>
+                            <li><a href="~/Administrating/GenerateWalks">Генерація Прогулянок</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
             <div class="col-sm-9">
                 <div class="form-horizontal">
-                    <h2>Генерування Альпіністів</h2>
+                    <h2>Генерація Альпіністів</h2>
                     <br />
                     <h4>Вибір кількості згенерованих альпіністів</h4>
                     <p class="my-p">
