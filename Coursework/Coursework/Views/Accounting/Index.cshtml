@@ -1,16 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Бухгалтерський Облік";
+    ViewBag.Title = "Бухгалтерський облік";
 }
 
 <div class="container-fluid">
     <div class="row content">
         <div class="col-sm-3 sidenav hidden-xs hidden-sm">
-            <h2>Бухгалтерський Облік</h2>
+            <h2>@ViewBag.Title</h2>
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">@Html.ActionLink("Загальна інформація", "Index", "Accounting")</li>
-                <li>@Html.ActionLink("Замовлення Альпіністів", "Report1", "Accounting")</li>
-                <li>@Html.ActionLink("Прибуток по Альпіністам", "Report2", "Accounting")</li>
-                <li>@Html.ActionLink("Прибуток по Типам Послуг", "Report3", "Accounting")</li>
+                <li>@Html.ActionLink("Замовлення альпіністів", "Report1", "Accounting")</li>
+                <li>@Html.ActionLink("Прибуток по альпіністам", "Report2", "Accounting")</li>
+                <li>@Html.ActionLink("Прибуток по типам послуг", "Report3", "Accounting")</li>
             </ul><br>
         </div>
         <br>
@@ -18,7 +18,7 @@
         </div>*@
         <div class="col-sm-9">
             <h4>
-                Тут ви можете дізнатись всю необхідну інформацію стосовно фінансів вашої Альпіністської Бази.
+                Тут ви можете дізнатись всю необхідну інформацію стосовно фінансів вашої альпіністської Бази.
             </h4>
             <h4>
                 А саме різноманітні звіти з можливістю вибирати період:

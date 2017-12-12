@@ -120,14 +120,14 @@
                 <li class="active">@Html.ActionLink("Загальний прибуток", "Index", "Statistics")</li>
                 <li>@Html.ActionLink("Проживання", "HouseProfit", "Statistics")</li>
                 <li>@Html.ActionLink("Харчування", "FoodProfit", "Statistics")</li>
-                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Statistics")</li>
+                <li>@Html.ActionLink("Альпіністські бази", "BaseProfit", "Statistics")</li>
             </ul><br>
         </div>
         <br>
 
         <div class="col-sm-9">
             <div class="well">
-                <h4>Загальний прибуток</h4>
+                <h4 align = "center">Загальний прибуток за поточний рік</h4>
                 <canvas id="doughnut-chart" width="808" height="300"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -144,8 +144,8 @@
                         },
                         options: {
                             title: {
-                                display: true,
-                                text: 'Загальний Прибуток за поточний рік'
+                                display: false,
+                                text: 'Загальний прибуток за поточний рік'
                             }
                         }
                     });
@@ -153,7 +153,7 @@
             </div>
                   
             <div class="well">
-                <h4>Графік Прибутку</h4>
+                <h4 align = "center">Графік прибутку по типом послуг</h4>
                 <canvas id="bar-chart-grouped" width="808" height="400"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -175,8 +175,8 @@
                         },
                         options: {
                             title: {
-                                display: true,
-                                text: 'Прибуток'
+                                display: false
+                               
                             },
                             scales: {
                                 xAxes: [{

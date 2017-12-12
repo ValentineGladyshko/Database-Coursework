@@ -1,7 +1,7 @@
 ﻿@model Coursework.Models.HouseOrder
 
 @{
-    ViewBag.Title = "Створення Замовлення Проживання";
+    ViewBag.Title = "Створення замовлення проживання";
 }
 
 
@@ -14,27 +14,27 @@
                 <h2>Адміністрування</h2>
                 <ul class="nav nav-pills nav-stacked">
                     <li>@Html.ActionLink("Загальна інформація", "Index", "Administrating")</li>
-                    <li>@Html.ActionLink("Реєстрація Альпініста", "CreateAlpinist", "Administrating")</li>
-                    <li>@Html.ActionLink("Створення Замовлення Харчування", "CreateFoodOrder", "Administrating")</li>
-                    <li class="active"><a href="#">Створення Замовлення Проживання</a></li>
-                    <li>@Html.ActionLink("Створення Прогулянки", "ChooseAlpinistWalk", "Administrating")</li>
+                    <li>@Html.ActionLink("Реєстрація альпініста", "CreateAlpinist", "Administrating")</li>
+                    <li>@Html.ActionLink("Створення замовлення` харчування", "CreateFoodOrder", "Administrating")</li>
+                    <li class="active"><a href="#">Створення замовлення проживання</a></li>
+                    <li>@Html.ActionLink("Створення прогулянки", "ChooseAlpinistWalk", "Administrating")</li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="~/Administrating/Index">
-                            Генерація Даних
+                            Генерація даних
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="~/Administrating/GenerateAlpinists">Генерація Альпіністів</a></li>
-                            <li><a href="~/Administrating/GenerateFoodOrders">Генерація Замовлень Харчування</a></li>
-                            <li><a href="~/Administrating/GenerateHouseOrders">Генерація Замовлень Проживання</a></li>
-                            <li><a href="~/Administrating/GenerateWalks">Генерація Прогулянок</a></li>
+                            <li><a href="~/Administrating/GenerateAlpinists">Генерація альпіністів</a></li>
+                            <li><a href="~/Administrating/GenerateFoodOrders">Генерація замовлень харчування</a></li>
+                            <li><a href="~/Administrating/GenerateHouseOrders">Генерація замовлень проживання</a></li>
+                            <li><a href="~/Administrating/GenerateWalks">Генерація прогулянок</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
             <div class="col-sm-9">
                 <div class="form-horizontal">
-                    <h2>Створення Замовлення Проживання</h2>
+                    <h2>Створення замовлення проживання</h2>
                     <br />
                     <h4>Вибір будинку та періоду</h4>
                     <hr />

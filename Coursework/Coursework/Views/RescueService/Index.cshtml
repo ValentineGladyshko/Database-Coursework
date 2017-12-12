@@ -1,6 +1,6 @@
 ﻿@model Coursework.Models.RouteState
 @{
-    ViewBag.Title = "Рятувальна Служба";
+    ViewBag.Title = "Рятувальна cлужба";
     string[] States = new string[] { "Жахливий", "Поганий", "Задовільний", "Хороший", "Відмінний" };
     SelectList list1 = new SelectList(States);
     var queryString = "";
@@ -8,10 +8,10 @@
 Initial Catalog = Coursework; Integrated Security = True");
 }
 
-<h2>Рятувальна Служба</h2>
+<h2>Рятувальна cлужба</h2>
 
 <br />
-<h4 class="my-th">Поточний стан Маршутів:</h4>
+<h4 class="my-th">Поточний стан маршутів:</h4>
 
 @{
     string queryString1 = "SELECT " +

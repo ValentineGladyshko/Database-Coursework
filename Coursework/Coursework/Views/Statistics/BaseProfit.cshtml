@@ -227,14 +227,14 @@
                 <li>@Html.ActionLink("Загальний прибуток", "Index", "Statistics")</li>
                 <li>@Html.ActionLink("Проживання", "HouseProfit", "Statistics")</li>
                 <li>@Html.ActionLink("Харчування", "FoodProfit", "Statistics")</li>
-                <li class="active">@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Statistics")</li>
+                <li class="active">@Html.ActionLink("Альпіністські бази", "BaseProfit", "Statistics")</li>
             </ul><br>
         </div>
         <br>
 
         <div class="col-sm-9">
             <div class="well">
-                <h4>Прибуток по Альпіністським Базам</h4>
+                <h4 align="center">Прибуток по альпіністським базам за поточний рік</h4>
                 <canvas id="doughnut-chart" width="808" height="300"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -251,7 +251,7 @@
                         },
                         options: {
                             title: {
-                                display: true,
+                                display: false,
                                 text: 'Прибуток по Альпіністським Базам за поточний рік'
                             }
                         }
@@ -259,7 +259,7 @@
                 </script>
             </div>
             <div class="well">
-                <h4>Графік Прибутку</h4>
+                <h4 align="center">Графік прибутку по альпіністським базам</h4>
                 <canvas id="bar-chart-grouped" width="808" height="400"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -285,7 +285,7 @@
                         },
                         options: {
                             title: {
-                                display: true,
+                                display: false,
                                 text: 'Прибуток'
                             },
                             scales: {
@@ -301,7 +301,7 @@
                 </script>
             </div>
             <div class="well">
-                <h4>Графік Прибутку</h4>
+                <h4 align="center">Графік прибутку по альпіністським базам (по типам послуг)</h4>
                 <canvas id="bar-chart-grouped1" width="808" height="400"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -323,7 +323,7 @@
                         },
                         options: {
                             title: {
-                                display: true,
+                                display: false,
                                 text: 'Прибуток'
                             },
                             scales: {

@@ -180,14 +180,14 @@
                 <li>@Html.ActionLink("Загальний прибуток", "Index", "Statistics")</li>
                 <li class="active">@Html.ActionLink("Проживання", "HouseProfit", "Statistics")</li>
                 <li>@Html.ActionLink("Харчування", "FoodProfit", "Statistics")</li>
-                <li>@Html.ActionLink("Альпіністські Бази", "BaseProfit", "Statistics")</li>
+                <li>@Html.ActionLink("Альпіністські бази", "BaseProfit", "Statistics")</li>
             </ul><br>
         </div>
         <br>
 
         <div class="col-sm-9">
             <div class="well">
-                <h4>Прибуток за проживання</h4>
+                <h4 align = "center">Прибуток за проживання за поточний рік (по типам)</h4>
                 <canvas id="doughnut-chart" width="808" height="300"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -204,7 +204,7 @@
                         },
                         options: {
                             title: {
-                                display: true,
+                                display: false,
                                 text: 'Прибуток за проживання за поточний рік (по типам)'
                             }
                         }
@@ -212,7 +212,7 @@
                 </script>
             </div>
             <div class="well">
-                <h4>Графік Прибутку</h4>
+                <h4 align="center">Графік прибутку по типам проживання</h4>
                 <canvas id="bar-chart-grouped" width="808" height="400"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -234,8 +234,7 @@
                         },
                         options: {
                             title: {
-                                display: true,
-                                text: 'Прибуток'
+                                display: false
                             },
                             scales: {
                                 xAxes: [{
@@ -250,7 +249,7 @@
                 </script>
             </div>
             <div class="well">
-                <h4>Прибуток за проживання</h4>
+                <h4 align="center">Прибуток за проживання за поточний рік (по альпіністським базам)</h4>
                 <canvas id="doughnut-chart1" width="808" height="300"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -267,15 +266,15 @@
                         },
                         options: {
                             title: {
-                                display: true,
-                                text: 'Прибуток за проживання за поточний рік (по Альпіністським Базам)'
+                                display: false,
+                                text: 'Прибуток за проживання за поточний рік (по альпіністським базам)'
                             }
                         }
                     });
                 </script>
             </div>
             <div class="well">
-                <h4>Альпіністська База - Проживання</h4>
+                <h4 align="center">Прибуток по альпіністським базам (по типам проживання)</h4>
                 <canvas id="bar-chart-grouped1" width="808" height="400"></canvas>
                 <script src="~/Scripts/Chart.js"></script>
                 <script>
@@ -297,7 +296,7 @@
                         },
                         options: {
                             title: {
-                                display: true,
+                                display: false,
                                 text: 'Альпіністська База'
                             },
                             scales: {
